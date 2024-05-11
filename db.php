@@ -43,8 +43,8 @@ function registerUser($type, $name, $mail, $passwd, $city, $district, $addr) {
           $stmt = $db->prepare("insert into user_table(email, u_name) values (?, ?)");
           $stmt->execute([$mail, $name]);
           
-          $stmt = $db->prepare("insert into role_table(email, u_role) values (?, ?)");
-          $stmt->execute([$mail, $type]);
+          $stmt = $db->prepare("insert into role_table(u_name, u_role) values (?, ?)");
+          $stmt->execute([$name, $type]);
 
           $stmt = $db->prepare("insert into address_table(email, city, district, addr) values (?, ?, ?, ?)");
           $stmt->execute([$mail, $city, $district, $addr]);

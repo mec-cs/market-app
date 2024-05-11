@@ -31,7 +31,7 @@
             // user will be registered
             if (isset($remember)) {
                $token = sha1(uniqid() . "Private Key is Here" . time()); // generate a random text
-               setcookie("remember_token", $token, time() + 60*60*24*365*10); // for 10 years
+               setcookie("remember_token", $token, time() + 60*60*24*365*1); // for 10 years
                setTokenToUser($token, $email);
             }
 
@@ -39,12 +39,9 @@
             $user_data = ["type" => $usertype, "name" => $name, "email" => $email, "password" => $password, "city" => $city, "district" => $district, "address" => $address, "usrtoken" => $token];
 
             $_SESSION["user"] = $user_data;
-
-            var_dump($user_data);
-            var_dump($register);
             
-            // header("Location: main.php");
-            // exit;
+            header("Location: main.php");
+            exit;
          }
       }
 ?>
@@ -62,6 +59,16 @@
    <h3>Register Please</h3>
    <form action="?" method="post">
       <table>
+         </tr>
+            <label for="customer" class="radio-image-label">
+               <img src="./assets/system/customer_32px.png" alt="">
+               <input type="radio" id="customer" name="usertype" value="C">
+            </label>
+            <label for="market" class="radio-image-label">
+               <img src="./assets/system/market_32px.png" alt="">
+               <input type="radio" id="market" name="usertype" value="M">
+            </label>
+         </tr>
          <tr>
             <td>Name :</td>
             <td><input type="text" name="name" id="name-input"></td>
