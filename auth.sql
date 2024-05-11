@@ -44,7 +44,7 @@ CREATE TABLE `auth` (
 
 LOCK TABLES `auth` WRITE;
 /*!40000 ALTER TABLE `auth` DISABLE KEYS */;
-INSERT INTO `auth` VALUES ('ali@gmail.com','$2a$10$e5fur6yolFMdD2fICktZBeMGVtwNjtajsoSnGYRiqDfvLj3aJbsG2',NULL),('batuuzun81@gmail.com','$10$e5fur6yolFMdD2fICktZBeMGVtwNjtajsoSnGYRiqDfvLj3aJbsG2',NULL),('hakansibi@gmail.com','$10$e5fur6yolFMdD2fICktZBeMGVtwNjtajsoSnGYRiqDfvLj3aJbsG2',NULL),('mehmetenes@gmail.com','$10$e5fur6yolFMdD2fICktZBeMGVtwNjtajsoSnGYRiqDfvLj3aJbsG2',NULL);
+INSERT INTO `auth` VALUES ('ali@gmail.com','$2a$10$dnztcVRKs52MDO/PI/HAkOyjJNVOTKCjaAlE1WOx/u4BH4p452b9W',NULL),('batuuzun81@gmail.com','$2a$10$oek6tXLRJQHOhX8IvF4qcuXsqbCJ4OGBBwce6KtiHwopDllIVOvWK',NULL),('hakansibi@gmail.com','$2a$10$JE7KG/7G8QQ2lYF4UiuyQuNn8MF6rosCYeNVu8zgs/5MYicENu8uW',NULL),('mehmetenes@gmail.com','$2a$10$4QeQjW1m4Zlx0mmKTKunBeNLeLSaywwZIa7Pt3jllTf2u3zgPJyxu',NULL);
 /*!40000 ALTER TABLE `auth` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
