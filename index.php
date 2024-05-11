@@ -60,7 +60,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="./style/style.css">
     <title>Market App Login Page</title>
 </head>
 <body>
@@ -74,7 +74,9 @@
       <label id="icon" for="name"><i class="icon-shield"></i></label>
       <input type="password" name="passwd" id="name" placeholder="Password" required/>
       <button class="loginButton">Log In</button>
-      <p>If you do not have an account, you may <a href="./register.php">sign up</a>.</p>
+      <div style="text-align:center; margin-right: 30px;">
+         <p>Not a member? <a href="./register.php">Sign up</a> now.</p>
+      </div>
    </form>
    <?php
       if ( isset($fail)) {
