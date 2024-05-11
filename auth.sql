@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS `auth` (
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `city` varchar(25) NOT NULL,
-  `district` varchar(25),
-  `address` varchar(100) NOT NULL,
+  `city` varchar(25) NOT NULL CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
+  `district` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
+  `address` varchar(100) NOT NULL CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
   `usrtoken` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
