@@ -29,6 +29,7 @@
         $page = $_GET["page"] ?? 1 ; 
         if(isset($_POST['query'])){
             $query = $_POST['query'];
+            $_SESSION['last_query'] = $query;
             $products = getProductsByPageNumberQuery($market['c_id'], $query);
 
             $size = count($products); 
@@ -42,14 +43,35 @@
             
         }
         else{
-            $size = $market['number_of_products']; 
-            $totalPages = ceil($size/PAGESIZE) ;
+            if(isset($_SESSION['last_query'])){
+                if($_SESSION['last_query'] == ""){
+                    unset($_SESSION['last_query']);
+                }
+                if(isset($_SESSION['last_query']))
+                    $products = getProductsByPageNumberQuery($market['c_id'], $_SESSION['last_query']);
+                else
+                    $products = getProductsByPageNumberQuery($market['c_id'], "");
 
-            $start = ($page - 1) * PAGESIZE ; 
-            $end = $start + PAGESIZE ; 
-            $end = $end > $size ? $size : $end ; 
 
-            $products = getProductsByPageNumber($start, $end, $market['c_id']);
+                $size = count($products); 
+
+                $totalPages = ceil($size/PAGESIZE) ;
+
+                $start = ($page - 1) * PAGESIZE ; 
+                $end = $start + PAGESIZE ; 
+                $end = $end > $size ? $size : $end ; 
+            }
+            else{
+                $size = $market['number_of_products']; 
+                $totalPages = ceil($size/PAGESIZE) ;
+
+                $start = ($page - 1) * PAGESIZE ; 
+                $end = $start + PAGESIZE ; 
+                $end = $end > $size ? $size : $end ; 
+
+                $products = getProductsByPageNumber($start, $end, $market['c_id']);
+            }
+            
         }
             
          
@@ -57,11 +79,12 @@
         //var_dump($products);
         echo "<h1>";
         echo "Welcome ". $market['c_name'];
-    echo "<h1>";
+        echo "<h1>";
 
-    echo "<a href=''>
-    <img src='./assets/system/add.png' alt='Add' width='30'> Add New Product 
-</a>;";
+        echo "<a href=''>
+        <img src='./assets/system/add.png' alt='Add' width='30'> Add New Product 
+        </a>;";
+        echo "<h1>Your Products</h1>";
     }
     
 
@@ -76,10 +99,10 @@
     <title>Market App Main Page</title>
 </head>
 <body>
-    <h1>Your Products</h1>
+    
 
     <form action="" method="post">
-    <input type="text" name="query">
+    <input type="text" name="query" value="<?= isset($_SESSION['last_query']) ? $_SESSION['last_query'] : ''; ?>" placeholder="Search a product">
 
 
 
@@ -171,7 +194,9 @@
 <br><br><br><br>
     <?php
          for ( $i=1; $i<= $totalPages; $i++) {
-           echo "<a href='?page=$i'>$i</a> " ;
+            
+                echo "<a href='?page=$i'>$i</a> " ;
+
          }
        ?>
 
