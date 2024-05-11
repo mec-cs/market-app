@@ -10,6 +10,7 @@
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
          extract($_POST);
+         $token = null;
          $errors = [];
 
          if (checkExists($email) != false) {
@@ -26,19 +27,19 @@
 
             // validated input will be used as parameter, boolean return if registered or not
             $register = registerUser($usertype, $name, $email, $password, $city, $district, $address);
-
+            
             // user will be registered
             if (isset($remember)) {
                $token = sha1(uniqid() . "Private Key is Here" . time()); // generate a random text
                setcookie("remember_token", $token, time() + 60*60*24*365*10); // for 10 years
                setTokenToUser($token, $email);
             }
-   
+
             // login as $user, and to store user data in the tmp/session file as crypted
-            $user_data = json_encode(["type" => $usertype, "name" => $name, "email" => $email, "password" => $password, "city" => $city, "district" => "district", "address" => $address]);
-            
+            $user_data = ["type" => $usertype, "name" => $name, "email" => $email, "password" => $password, "city" => $city, "district" => $district, "address" => $address, "usrtoken" => $token];
+
             $_SESSION["user"] = $user_data;
-            
+
             header("Location: main.php");
             exit;
          }
