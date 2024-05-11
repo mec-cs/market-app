@@ -82,5 +82,7 @@
         echo "<p class='error'>You tried to access main.php directly</p>" ; 
       }
     ?>
+
+    <a href="/register.php">register</a>
 </body>
 </html>

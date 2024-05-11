@@ -35,5 +35,10 @@
         // edit profile button
             // directing to the profile.php
     ?>
+
+    <a href="/profile.php">profile</a>
+
+    <a href="/logout.php">logout</a>
+
 </body>
 </html>

@@ -40,6 +40,8 @@
 
             $_SESSION["user"] = $user_data;
 
+            var_dump($user_data);
+
             header("Location: main.php");
             exit;
          }
@@ -75,8 +77,8 @@
             <td>User Type :</td>
             <td>
                <select name="usertype" id="user-checklist">
-                  <option value="market">Market</option>
-                  <option value="customer">Customer</option>
+                  <option value="M" name="market">Market</option>
+                  <option value="C" name="customer">Customer</option>
                </select>
             </td>
          </tr>
