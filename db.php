@@ -2,7 +2,7 @@
 
 const DSN = "mysql:host=localhost;dbname=market-php-db;charset=utf8mb4";
 const USER = "root";
-const PASSWD = "";
+const PASSWD = "Ayhan1989";
 
 try {
      $db = new PDO(DSN, USER, PASSWD); 
@@ -27,9 +27,9 @@ function checkUser($mail, $pwd, &$user) {
 
 function checkExists($mail) {
      global $db;
-
      $stmt = $db->prepare("select * from auth_table where email=?");
      $stmt->execute([$mail]);
+
      return $stmt->fetch();
 }
 
@@ -63,6 +63,7 @@ function getUserByToken($token) {
      global $db;
      $stmt = $db->prepare("select * from auth_table where usrtoken=?");
      $stmt->execute([$token]);
+
      return $stmt->fetch();
 }
 
@@ -72,4 +73,45 @@ function setTokenToUser($token, $mail) {
      $stmt->execute([$token, $mail]);
 }
 
+function getUserRole($email){
+     global $db;
+     $stmt = $db->prepare("select * from role_table where email=?");
+     $stmt->execute([$email]);
+
+     return $stmt->fetch();
+}
+
+function getProductsByPageNumber($start, $end, $id){
+     global $db;
+     $stmt = $db->prepare("SELECT * FROM product_table WHERE c_id=? LIMIT $start, $end;");
+     $stmt->execute([$id]);
+
+     return $stmt->fetchAll();
+}
+
+function getProductsByPageNumberQuery($id, $query){
+     global $db;
+     $stmt = $db->prepare("SELECT * FROM product_table WHERE c_id=? AND p_name LIKE ?");
+     $searchTerm = "%$query%"; // Assuming you're searching for the term within the product name
+     $stmt->execute([$id, $searchTerm]);
+
+     return $stmt->fetchAll();
+}
+
+
+function getMarket($id){
+     global $db;
+     $stmt = $db->prepare("SELECT * FROM company_table where c_address=?");
+     $stmt->execute([$id]);
+     
+     return $stmt->fetch();
+}
+
+function getAddress($email){
+     global $db;
+     $stmt = $db->prepare("SELECT * FROM address_table where email=?");
+     $stmt->execute([$email]);
+     
+     return $stmt->fetch();
+}
 ?>
