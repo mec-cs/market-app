@@ -36,9 +36,9 @@
             // directing to the profile.php
     ?>
 
-    <a href="/profile.php">profile</a>
+    <a href="./profile.php">profile</a>
 
-    <a href="/logout.php">logout</a>
+    <a href="./logout.php">logout</a>
 
 </body>
 </html>

@@ -41,9 +41,10 @@
             $_SESSION["user"] = $user_data;
 
             var_dump($user_data);
-
-            header("Location: main.php");
-            exit;
+            var_dump($register);
+            
+            // header("Location: main.php");
+            // exit;
          }
       }
 ?>

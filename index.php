@@ -83,6 +83,6 @@
       }
     ?>
 
-    <a href="/register.php">register</a>
+    <a href="./register.php">register</a>
 </body>
 </html>
