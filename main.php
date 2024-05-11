@@ -1,5 +1,12 @@
 <?php 
     session_start() ;
+
+    // Set CSP headers
+    // header("Content-Security-Policy: default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com;");
+    header("X-Content-Type-Options: nosniff");
+    header("X-Frame-Options: DENY");
+    header("X-XSS-Protection: 1; mode=block");
+
     require "db.php" ;
       
     // check if the user authenticated before
