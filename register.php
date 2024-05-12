@@ -24,6 +24,10 @@
             $errors["exist"] = "Mail is already registered to the system!";
          } else if ($name == "" || $email == "" || $password == "" || $city == "" || $address == "") {
             $errors["blank"] = "Form values can not be blank!";
+         } else if(strlen($password) < 8){
+            $errors["shortPassword"] = "Password must be at least 8 characters!";
+         } else if(checkSpecialChar($password) != true){
+            $errors["noSpecialCharPassword"] = "Password must include at least 1 special character!";
          } else if (false) {
             // in this part form validation and verification must be implemented
             
@@ -136,7 +140,11 @@
 
 
  <div class="error">
-   <p style="color:red;">Given Error Text</p>
+   <?php
+      if(!empty($errors)){
+         echo "<p style='color:red;'>" . implode('<br>', $errors) . "</p>";
+      }
+   ?>
    </div>
  </div>
 </body>

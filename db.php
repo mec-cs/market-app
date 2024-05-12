@@ -33,6 +33,20 @@ function checkExists($mail) {
      return $stmt->fetch();
 }
 
+function checkSpecialChar($passwd){
+     $specialChars = array('!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '~', '`', '[', ']', '{', '}', '|', ';', ':', ',', '.', '<', '>', '?');;
+     $hasSpecialChar = false;
+
+     for($i=0; $i < strlen($passwd); $i++){
+          $char = $passwd[$i];
+          if(in_array($char, $specialChars)){
+               $hasSpecialChar = true;
+               break;
+          }
+     }
+     return $hasSpecialChar;
+}
+
 function registerUser($type, $name, $mail, $passwd, $city, $district, $addr) {
      global $db;
 
