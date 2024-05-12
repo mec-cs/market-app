@@ -74,9 +74,6 @@
         echo "Welcome ". $market['c_name'];
         echo "<h1>";
 
-        echo "<a href=''>
-        <img src='./assets/system/add.png' alt='Add' width='30'> Add New Product 
-        </a>;";
         echo "<h1>Your Products</h1>";
     }
     else {
@@ -194,7 +191,7 @@
                 </a>";
                 if(isset($_GET["edit"])) {
                     echo "
-                    <button name='p_id' value='$p[p_id]'action='?'><img src='./assets/system/save.jpg' alt='Save' width='30'></button>
+                    <button style='border:0px solid black; background-color: transparent' name='p_id' value='$p[p_id]'action='?'><img src='./assets/system/save.png' alt='Save' width='30'></button>
                     <a href='?edit=$p[p_id]'>
 
                     </a>";
@@ -219,7 +216,19 @@
     <?=
     isset($_GET["edit"]) ? '</form>' : '';
     ?>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td colspan="1">
+        <a href=''>
+        <img src='./assets/system/add.png' alt='Add' width='30'>
+        </a>
+        </td>
 
+    </tr>
     </table>
 
     <a href="./profile.php">profile</a>
