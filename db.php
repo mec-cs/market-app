@@ -132,10 +132,9 @@ function getAllProductsByPageNumber($start, $end){
 
 }
 
-
 function getMarket($id){
      global $db;
-     $stmt = $db->prepare("SELECT * FROM company_table where c_address=?");
+     $stmt = $db->prepare("SELECT * FROM company_table where c_address_table=?");
      $stmt->execute([$id]);
      
      return $stmt->fetch();
