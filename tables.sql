@@ -43,7 +43,7 @@ CREATE TABLE `auth_table` (
 --
 
 /*!40000 ALTER TABLE `auth_table` DISABLE KEYS */;
-INSERT INTO `auth_table` VALUES ('ali@gmail.com','$2a$10$dnztcVRKs52MDO/PI/HAkOyjJNVOTKCjaAlE1WOx/u4BH4p452b9W',NULL),('batuuzun81@gmail.com','$2a$10$oek6tXLRJQHOhX8IvF4qcuXsqbCJ4OGBBwce6KtiHwopDllIVOvWK',NULL),('hakansibi@gmail.com','$2a$10$JE7KG/7G8QQ2lYF4UiuyQuNn8MF6rosCYeNVu8zgs/5MYicENu8uW',NULL),('mehmetenes@gmail.com','$2a$10$4QeQjW1m4Zlx0mmKTKunBeNLeLSaywwZIa7Pt3jllTf2u3zgPJyxu',NULL);
+INSERT INTO `auth_table` VALUES ('ali@gmail.com','$2a$10$dnztcVRKs52MDO/PI/HAkOyjJNVOTKCjaAlE1WOx/u4BH4p452b9W',NULL),('batuuzun81@gmail.com','$2a$10$oek6tXLRJQHOhX8IvF4qcuXsqbCJ4OGBBwce6KtiHwopDllIVOvWK',NULL),('hakansibi@gmail.com','$2a$10$JE7KG/7G8QQ2lYF4UiuyQuNn8MF6rosCYeNVu8zgs/5MYicENu8uW',NULL),('mehmetenes@gmail.com','$2a$10$4QeQjW1m4Zlx0mmKTKunBeNLeLSaywwZIa7Pt3jllTf2u3zgPJyxu',NULL),(('kizilay@gmail.com','$2a$10$4QeQjW1m4Zlx0mmKTKunBeNLeLSaywwZIa7Pt3jllTf2u3zgPJyxu',NULL));
 /*!40000 ALTER TABLE `auth_table` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -87,7 +87,7 @@ CREATE TABLE `user_table` (
 
 
 /*!40000 ALTER TABLE `user_table` DISABLE KEYS */;
-INSERT INTO `user_table` VALUES ('ali@gmail.com','Ali Gül'),('batuuzun81@gmail.com','Kent Gıda'),('hakansibi@gmail.com','Eti'),('mehmetenes@gmail.com','Ülker');
+INSERT INTO `user_table` VALUES ('ali@gmail.com','Ali Gül'),('kizilay@gmail.com','Kızıl Ay'),('batuuzun81@gmail.com','Kent Gıda'),('hakansibi@gmail.com','Eti'),('mehmetenes@gmail.com','Ülker');
 /*!40000 ALTER TABLE `user_table` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -131,7 +131,7 @@ CREATE TABLE `role_table` (
 
 
 /*!40000 ALTER TABLE `role_table` DISABLE KEYS */;
-INSERT INTO `role_table` VALUES ('ali@gmail.com','C'),('batuuzun81@gmail.com','M'),('hakansibi@gmail.com','M'),('mehmetenes@gmail.com','M');
+INSERT INTO `role_table` VALUES ('ali@gmail.com','C'),('batuuzun81@gmail.com','M'),('hakansibi@gmail.com','M'),('mehmetenes@gmail.com','M'),('kizilay@gmail.com','C');
 /*!40000 ALTER TABLE `role_table` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -180,7 +180,7 @@ CREATE TABLE `address_table` (
 
 
 /*!40000 ALTER TABLE `address_table` DISABLE KEYS */;
-INSERT INTO `address_table` VALUES (1,'ali@gmail.com','Kocaeli','Gebze','Asım Sokak no:70/54'),(5,'batuuzun81@gmail.com','Istanbul','Kadıköy','Göztepe Mahallesi, Afacan Sokak No:61/55'),(6,'mehmetenes@gmail.com','Ankara','Bahçelievler','Sorar Sokak no:14/7'),(7,'hakansibi@gmail.com','Ankara','Kızılay','Vadi Sokak no:78/3');
+INSERT INTO `address_table` VALUES (1,'ali@gmail.com','Kocaeli','Gebze','Asım Sokak no:70/54'),(2,'kizilay@gmail.com','Ankara','Kizilay','Meşrutiyet Caddesi no:19/08'),(5,'batuuzun81@gmail.com','Istanbul','Kadıköy','Göztepe Mahallesi, Afacan Sokak No:61/55'),(6,'mehmetenes@gmail.com','Ankara','Bahçelievler','Sorar Sokak no:14/7'),(7,'hakansibi@gmail.com','Ankara','Kızılay','Vadi Sokak no:78/3');
 /*!40000 ALTER TABLE `address_table` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
