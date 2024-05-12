@@ -70,7 +70,7 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
                     <h4>Login</h4>
@@ -79,7 +79,7 @@
                     <form action="?" method="post">
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" required>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
