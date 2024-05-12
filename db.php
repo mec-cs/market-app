@@ -47,9 +47,9 @@ function checkSpecialChar($passwd){
      return $hasSpecialChar;
 }
 
-function registerUser($type, $name, $mail, $passwd, $city, $district, $addr) {
+function registerUser($type, $name, $mail, $password, $city, $district, $addr) {
      global $db;
-
+     $passwd = password_hash($password, $PASSWORD_DEFAULT);
      try {
           $stmt = $db->prepare("insert into auth_table(email, password, usrtoken) values (?, ?, NULL)");
           $stmt->execute([$mail, $passwd]);
