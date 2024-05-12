@@ -72,7 +72,7 @@
    <div class="realDealBody">
       <form action="?" method="post">
          <div class="containers">
-            <h1 style="margin:15px;">Registiration</h1>
+            <h1 style="margin:15px;">Registration</h1>
             <hr style="color:#a9a9a9;opacity:0.3;">
             <div class="radio-buttons-container">
                <div class="radio-image-label">
