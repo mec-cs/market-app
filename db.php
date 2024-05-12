@@ -160,5 +160,21 @@ return preg_match("/^[a-zA-Z ]+$/", $name);
 function isValidEmail($email) {
 return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
+
+function updateProduct($post){
+     global $db;
+     $flag=false;
+
+     $p_id = $post["p_id"];
+     foreach($post as $key => $value) {
+          if($value != "") {
+               $stmt = $db->prepare("UPDATE product_table SET $key=$value WHERE p_id=$p_id");
+               $stmt->execute();
+               $flag = true;
+          }
+     }
+     
+     return $flag;
+}
  
 ?>

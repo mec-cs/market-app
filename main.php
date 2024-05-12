@@ -87,8 +87,9 @@
         $totalPages = ceil($size/PAGESIZE) ;
     }
 
-    if(isset($_POST)){
-        
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        updateProduct($_POST);
+        $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
     }
 ?>
 
