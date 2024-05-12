@@ -62,7 +62,6 @@
                 $end = $end > $size ? $size : $end ; 
             }
             else{
-                var_dump($market);
                 $size = $market['number_of_products']; 
                 $totalPages = ceil($size/PAGESIZE) ;
 
