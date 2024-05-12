@@ -144,6 +144,7 @@
       </div>
       <hr style="color:#a9a9a9;opacity:0.3;">
       <div style="margin-bottom: 10px;">
+         <a href="./index.php" class="button">Get Back</a>
          <button class="btnSpecial" role="button">Register</button>
       </div>
    </div>
