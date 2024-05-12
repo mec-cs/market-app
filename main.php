@@ -16,15 +16,12 @@
     }
     
     $user = $_SESSION["user"];
-
+    $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
-    //var_dump($role);
-    if($role['role'] == "M"){
-        $address = getAddress($user['email']);
-        //var_dump($address);
-        $market = getMarket($address['id']);
-        //var_dump($market);
 
+    var_dump($role);
+    if($role['role'] == "M"){
+        $market = getMarket($address['id']);
 
         $page = $_GET["page"] ?? 1 ; 
         if(isset($_POST['query'])){
@@ -87,7 +84,8 @@
         echo "<h1>Your Products</h1>";
     }
     else {
-        $products = getAllProductsByPageNumber(0, 5);
+        extract($address);
+        $products = getAllProductsByPageNumber(0, 5, $city, $district);
 
         $size = count($products); 
         $totalPages = ceil($size/PAGESIZE) ;

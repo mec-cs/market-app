@@ -61,7 +61,7 @@ function registerUser($type, $name, $mail, $passwd, $city, $district, $addr) {
 
 
           $stmt = $db->prepare("insert into role_table(email, role) values (?, ?)");
-          $stmt->execute([$name, $type]);
+          $stmt->execute([$mail, $type]);
 
 
           if ($type == "M") {
@@ -123,10 +123,10 @@ function getMarketProductsByPageNumberQuery($id, $query){
      return $stmt->fetchAll();
 }
 
-function getAllProductsByPageNumber($start, $end){
+function getAllProductsByPageNumber($start, $end, $city, $district){
      global $db;
-     $stmt = $db->prepare("SELECT * FROM product_table LIMIT $start, $end;");
-     $stmt->execute();
+     $stmt = $db->prepare("(SELECT * FROM product_table p JOIN company_table c ON c.c_id = p.c_id JOIN address_table a ON c.c_address_table = a.id WHERE a.district = ?) UNION (SELECT * FROM product_table p JOIN company_table c ON c.c_id = p.c_id JOIN address_table a ON c.c_address_table = a.id WHERE a.city = ?) LIMIT $start, $end;");
+     $stmt->execute([$district, $city]);
 
      return $stmt->fetchAll();
 
