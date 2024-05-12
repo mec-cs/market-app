@@ -19,7 +19,7 @@
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
 
-    var_dump($role);
+    //var_dump($role);
     if($role['role'] == "M"){
         $market = getMarket($address['id']);
 
