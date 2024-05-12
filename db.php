@@ -70,7 +70,7 @@ function registerUser($type, $name, $mail, $passwd, $city, $district, $addr) {
                $address_id = $stmt->fetch();
                // var_dump($address_id);
 
-               $stmt = $db->prepare("insert into company_table(c_name, c_address_table, number_of_product_tables, c_image) values(?, ?, 0, 'default.png')");
+               $stmt = $db->prepare("insert into company_table(c_name, c_address_table, number_of_product, c_image) values(?, ?, 0, 'default.png')");
                $stmt->execute([$name, $address_id["id"]]);
           }
 
