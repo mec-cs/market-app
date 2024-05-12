@@ -1,0 +1,90 @@
+dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, 
+pre, form, fieldset, input, textarea, p, blockquote, th, td { 
+padding:0;
+margin:5px;
+}
+body,
+input,
+textarea,
+select {
+font-family: 'Open Sans', sans-serif;
+font-size: 16px;
+color: #4c4c4c;
+}
+h1 {
+   font-size: 32px;
+   font-weight: 300;
+   color: #4c4c4c;
+   text-align: center;
+   padding-top: 10px;
+   margin-bottom: 10px;
+}
+.radio-buttons-container {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.radio-image-label {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin: 0 10px; /* Adjust spacing between each label */
+}
+
+.radio-image-label input[type="radio"] {
+   margin-top: 10px; /* Adjust spacing between image and radio button */
+}
+.type_logo {
+   text-align: center;
+   display: block;
+   margin: 10px 10px;
+   padding: 20px;
+   border: 1px solid black;
+}
+.container {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   align-content: center;
+   padding: 0px 10px;
+}
+.containers {
+   margin: 10px auto;
+   display:inline-block;
+   border-radius: 8px/7px; 
+   background-color: #ebebeb; 
+   box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
+   border: solid 1px #cbc9c9;
+}
+.label {
+   margin-right: 5px;
+}
+input[type=text],input[type=password] {
+   width: 200px; 
+   height: 35px; 
+   border-radius: 0px 4px 4px 0px/5px 5px 4px 4px; 
+   background-color: #fff; 
+   box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+   border: solid 1px #cbc9c9;
+   margin-left: -5px;
+   margin-top: 13px; 
+   padding-left: 10px;
+}
+.radioButtonDiv {
+   text-align: center;
+}
+.realDealBody {
+   text-align: center;
+}
+button {
+   font-size: 15px;
+   font-weight: 700;
+   margin: 10px 80px;
+   color: white;
+   padding: 6px 25px;
+   width: 150px; height: 35px; 
+   border-radius: 10px; 
+   background-color: #3a57af; 
+   box-shadow: 0 3px rgba(58,87,175,.75);
+   position: relative;
+}
