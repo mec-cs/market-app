@@ -15,8 +15,6 @@
         exit ; 
     }
 
-
-
     function setPagings($size){
         global $page;
         global $totalPages;
@@ -99,7 +97,8 @@
     <title>Market App Main Page</title>
 </head>
 <body>
-    
+
+
 
     <form method="post">
     <input type="text" name="query" value="<?= isset($_SESSION['last_query']) ? $_SESSION['last_query'] : ''; ?>" placeholder="Search a product">
@@ -110,6 +109,7 @@
     isset($_GET["edit"]) ? '<form action="?" method="post">' : '';
     ?>
     <?php 
+
         echo "<tr>";
             echo "<th>";
                 echo "";
@@ -222,26 +222,24 @@
         <td></td>
         <td></td>
         <td></td>
-        <td colspan="1">
+        <td>
         <a href=''>
         <img src='./assets/system/add.png' alt='Add' width='30'>
         </a>
         </td>
-
     </tr>
     </table>
 
     <a href="./profile.php">profile</a>
-
     <a href="./logout.php">logout</a>
-<br><br><br><br>
+
+    <br><br><br><br>
+
     <?php
          for ( $i=1; $i<= $totalPages; $i++) {
-            
                 echo "<a href='?page=$i'>$i</a> " ;
-
          }
-       ?>
-
+    ?>
+    <script>var input = document.querySelectorAll('input');for(i=0; i<input.length; i++){input[i].setAttribute('size',input[i].getAttribute('placeholder').length);}   </script>
 </body>
 </html>
