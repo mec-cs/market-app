@@ -30,7 +30,7 @@
         if(isset($_POST['query'])){
             $query = $_POST['query'];
             $_SESSION['last_query'] = $query;
-            $products = getProductsByPageNumberQuery($market['c_id'], $query);
+            $products = getMarketProductsByPageNumberQuery($market['c_id'], $query);
 
             $size = count($products); 
 
@@ -48,9 +48,9 @@
                     unset($_SESSION['last_query']);
                 }
                 if(isset($_SESSION['last_query']))
-                    $products = getProductsByPageNumberQuery($market['c_id'], $_SESSION['last_query']);
+                    $products = getMarketProductsByPageNumberQuery($market['c_id'], $_SESSION['last_query']);
                 else
-                    $products = getProductsByPageNumberQuery($market['c_id'], "");
+                    $products = getMarketProductsByPageNumberQuery($market['c_id'], "");
 
 
                 $size = count($products); 
@@ -69,7 +69,7 @@
                 $end = $start + PAGESIZE ; 
                 $end = $end > $size ? $size : $end ; 
 
-                $products = getProductsByPageNumber($start, $end, $market['c_id']);
+                $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
             }
             
         }
@@ -86,7 +86,12 @@
         </a>;";
         echo "<h1>Your Products</h1>";
     }
-    
+    else {
+        $products = getAllProductsByPageNumber(0, 5);
+        
+        $size = count($products); 
+        $totalPages = ceil($size/PAGESIZE) ;
+    }
 
 ?>
 

@@ -106,7 +106,7 @@ function getUserRole($email){
      return $stmt->fetch();
 }
 
-function getProductsByPageNumber($start, $end, $id){
+function getMarketProductsByPageNumber($start, $end, $id){
      global $db;
      $stmt = $db->prepare("SELECT * FROM product_table WHERE c_id=? LIMIT $start, $end;");
      $stmt->execute([$id]);
@@ -114,13 +114,22 @@ function getProductsByPageNumber($start, $end, $id){
      return $stmt->fetchAll();
 }
 
-function getProductsByPageNumberQuery($id, $query){
+function getMarketProductsByPageNumberQuery($id, $query){
      global $db;
      $stmt = $db->prepare("SELECT * FROM product_table WHERE c_id=? AND p_name LIKE ?");
      $searchTerm = "%$query%"; // Assuming you're searching for the term within the product name
      $stmt->execute([$id, $searchTerm]);
 
      return $stmt->fetchAll();
+}
+
+function getAllProductsByPageNumber($start, $end){
+     global $db;
+     $stmt = $db->prepare("SELECT * FROM product_table LIMIT $start, $end;");
+     $stmt->execute();
+
+     return $stmt->fetchAll();
+
 }
 
 
