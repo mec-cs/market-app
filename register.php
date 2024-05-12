@@ -97,37 +97,37 @@
      <div class="label">
          <p>Name :</p>
       </div>
-      <input type="text" name="name" id="name-input" placeholder="Customer or market">
+      <input type="text" name="name" id="name-input" placeholder="Customer or market" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>">
    </div>
      <div class="container">
         <div class="label">
            <p>Email :</p>
          </div>
-         <input type="text" name="email" id="email" placeholder="eg. john@yahoo.com">
+         <input type="text" name="email" id="email" placeholder="eg. john@yahoo.com" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
       </div>
       <div class="container">
          <div class="label">
             <p>Password :</p>
          </div>
-         <input type="password" name="password" id="password">
+         <input type="password" name="password" id="password" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>">
       </div>
       <div class="container">
          <div class="label">
             <p>City :</p>
          </div>
-         <input type="text" name="city" id="city">
+         <input type="text" name="city" id="city" value="<?php echo isset($_POST['city']) ? htmlspecialchars($_POST['city']) : ''; ?>">
       </div>
       <div class="container">
          <div class="label">
             <p>District :</p>
          </div>
-         <input type="text" name="district" id="district">
+         <input type="text" name="district" id="district" value="<?php echo isset($_POST['district']) ? htmlspecialchars($_POST['district']) : ''; ?>">
       </div>
       <div class="container">
          <div class="label">
             <p>Address :</p>
          </div>
-         <input type="text" name="address" id="address" placeholder="eg. Fye Ave Oxford 6850">
+         <input type="text" name="address" id="address" placeholder="eg. Fye Ave Oxford 6850" value="<?php echo isset($_POST['address']) ? htmlspecialchars($_POST['address']) : ''; ?>">
       </div>
       <div style="display:flex; margin-top: 10px; margin-left: 10px;">
         <p>Remember Me:</p>
