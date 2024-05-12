@@ -87,6 +87,9 @@
         $totalPages = ceil($size/PAGESIZE) ;
     }
 
+    if(isset($_POST)){
+        
+    }
 ?>
 
 <!DOCTYPE html>
@@ -100,11 +103,14 @@
 <body>
     
 
-    <form action="" method="post">
+    <form method="post">
     <input type="text" name="query" value="<?= isset($_SESSION['last_query']) ? $_SESSION['last_query'] : ''; ?>" placeholder="Search a product">
     </form>
 
     <table>
+    <?=
+    isset($_GET["edit"]) ? '<form action="?" method="post">' : '';
+    ?>
     <?php 
         echo "<tr>";
             echo "<th>";
@@ -140,19 +146,43 @@
                 echo "</td>";
 
                 echo "<td>";
+                if(isset($_GET["edit"]) && $_GET["edit"] == $p["p_id"]){
+                    echo '<input type="text" name="p_name" value="" placeholder="';
+                    echo $p["p_name"];
+                    echo '">';
+                } else {
                     echo $p['p_name'];
+                }
                 echo "</td>";
 
                 echo "<td>";
+                if(isset($_GET["edit"]) && $_GET["edit"] == $p["p_id"]){
+                    echo '<input type="text" name="p_stock" value="" placeholder="';
+                    echo $p["p_stock"];
+                    echo '">';
+                } else {
                     echo $p['p_stock'];
+                }
                 echo "</td>";
 
                 echo "<td>";
+                if(isset($_GET["edit"]) && $_GET["edit"] == $p["p_id"]){
+                    echo '<input type="text" name="p_expire" value="" placeholder="';
+                    echo $p["p_expire"];
+                    echo '">';
+                } else {
                     echo $p['p_expire'];
+                }
                 echo "</td>";
 
                 echo "<td>";
+                if(isset($_GET["edit"]) && $_GET["edit"] == $p["p_id"]){
+                    echo '<input type="text" name="p_price" value="" placeholder="';
+                    echo $p["p_price"];
+                    echo '">';
+                } else {
                     echo $p['p_price'];
+                }
                 echo "</td>";
 
                 echo "<td>";
@@ -160,11 +190,20 @@
                 echo "
                 <a href=''>
                     <img src='./assets/system/delete.png' alt='Delete' width='30'>
-                </a>
-                
-                <a href=''>
-                    <img src='./assets/system/edit.png' alt='Update' width='30'>
                 </a>";
+                if(isset($_GET["edit"])) {
+                    echo "
+                    <button name='p_id' value='$p[p_id]'action='?'><img src='./assets/system/save.jpg' alt='Save' width='30'></button>
+                    <a href='?edit=$p[p_id]'>
+
+                    </a>";
+                } else {
+                    echo "
+                    <a href='?edit=$p[p_id]'>
+                        <img src='./assets/system/edit.png' alt='Update' width='30'>
+                    </a>";
+                }
+
                 } else {
                     echo "
                     <a href=''>
@@ -175,7 +214,11 @@
 
             echo "</tr>";
         }
+?>
+    <?=
+    isset($_GET["edit"]) ? '</form>' : '';
     ?>
+
     </table>
 
     <a href="./profile.php">profile</a>
