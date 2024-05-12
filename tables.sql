@@ -214,7 +214,7 @@ CREATE TABLE `company_table` (
   `c_id` int NOT NULL AUTO_INCREMENT,
   `c_name` varchar(255) COLLATE utf8mb4_turkish_ci DEFAULT NULL,
   `c_address_table` int DEFAULT NULL,
-  `number_of_product` int DEFAULT NULL,
+  `number_of_products` int DEFAULT NULL,
   `c_image` varchar(100) COLLATE utf8mb4_turkish_ci DEFAULT NULL,
   PRIMARY KEY (`c_id`),
   KEY `c_address_table` (`c_address_table`),
