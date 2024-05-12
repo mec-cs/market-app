@@ -57,57 +57,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/app.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="style/style.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <title>Market App Login Page</title>
 </head>
 <body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Login</h4>
-                </div>
-                <div class="card-body">
-                    <form action="?" method="post">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
-                </div>
-                <div class="card-footer text-center">
-                    <p class="mb-0">Not a member ? <a href="./register.php">Sign up</a> now.</p>
-                    <p class="text-danger"></p>
-                    <?php
-                        if(isset($fail)) {
-                            echo '<p class="text-danger">Wrong email or password</p>';
-                        } elseif (isset($_GET["error"])) {
-                            echo '<p class="text-danger">Please <b>register</b> to the system.</p>';
-                        }
-                    ?>
+<div class="bg"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
+<div class="content">
+    <div class="container mt-15">
+        <div class="row justify-content-center">
+            <div class="col-md-20">
+                <div class="card">
+                    <div class="card-header">
+                        <h1>Login</h1>
+                    </div>
+                    <div class="card-body">
+                        <form action="?" method="post">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password" required>
+                            </div>
+                            <button class="btnSpecial" role="button">Login</button>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <p class="mb-0">Not a member ? <a href="./register.php">Sign up</a> now.</p>
+                        <p class="text-danger"></p>
+                        <?php
+                            if(isset($fail)) {
+                                echo '<p class="text-danger">Wrong email or password</p>';
+                            } elseif (isset($_GET["error"])) {
+                                echo '<p class="text-danger">Please <b>register</b> to the system.</p>';
+                            }
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+</div>
 <!-- bootstrap js -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</div>
 </body>
 </html>

@@ -65,10 +65,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-   <link rel="stylesheet" href="style/styleRegister.css">
+   <link rel="stylesheet" href="./style/app.css">
     <title>Market App Register Page</title>
 </head>
 <body>
+<div class="bg"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
+<div class="content">
+   
    <div class="realDealBody">
       <form action="?" method="post">
          <div class="containers">
@@ -129,13 +134,17 @@
          </div>
          <input type="text" name="address" id="address" placeholder="eg. Fye Ave Oxford 6850" value="<?php echo isset($_POST['address']) ? htmlspecialchars($_POST['address']) : ''; ?>">
       </div>
-      <div style="display:flex; margin-top: 10px; margin-left: 10px;">
+      <!-- <div style="display:flex; margin-top: 10px; margin-left: 10px;">
         <p>Remember Me:</p>
         <input type="checkbox" name="remember" id="remember">
+      </div> -->
+      <div class="checkbox-wrapper-2">
+         <p>Remember Me:</p>
+         <input type="checkbox" class="sc-gJwTLC ikxBAC" name="remember" id="remember">
       </div>
       <hr style="color:#a9a9a9;opacity:0.3;">
       <div style="margin-bottom: 10px;">
-         <button><i class="fa fa-right-to-bracket"></i>&nbsp;&nbsp;Register</button>
+         <button class="btnSpecial" role="button">Register</button>
       </div>
    </div>
 </form>
@@ -149,5 +158,6 @@
    ?>
    </div>
  </div>
+</div>
 </body>
 </html>
