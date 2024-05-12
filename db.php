@@ -125,7 +125,8 @@ function getMarketProductsByPageNumberQuery($id, $query){
 
 function getAllProductsByPageNumber($start, $end, $city, $district){
      global $db;
-     $stmt = $db->prepare("(SELECT * FROM product_table p JOIN company_table c ON c.c_id = p.c_id JOIN address_table a ON c.c_address_table = a.id WHERE a.district = ?) UNION (SELECT * FROM product_table p JOIN company_table c ON c.c_id = p.c_id JOIN address_table a ON c.c_address_table = a.id WHERE a.city = ?) LIMIT $start, $end;");
+     $stmt = $db->prepare("(SELECT * FROM product_table p JOIN company_table c ON c.c_id = p.c_id JOIN address_table a ON c.c_address_table = a.id WHERE a.district = ?) UNION 
+     (SELECT * FROM product_table p JOIN company_table c ON c.c_id = p.c_id JOIN address_table a ON c.c_address_table = a.id WHERE a.city = ?) LIMIT $start, $end;");
      $stmt->execute([$district, $city]);
 
      return $stmt->fetchAll();
