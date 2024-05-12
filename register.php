@@ -28,31 +28,33 @@
             $errors["shortPassword"] = "Password must be at least 8 characters!";
          } else if(checkSpecialChar($password) != true){
             $errors["noSpecialCharPassword"] = "Password must include at least 1 special character!";
-         } else if (false) {
-            // in this part form validation and verification must be implemented
-            
-            
-            
-            $errors["hack"] = "Dont even try bro!";
+         } else if (!isValidName($name) || !isValidEmail($email)) {
+            $errors["invalid"] = "Please give valid inputs to name or email!";
          } else {
-
             // validated input will be used as parameter, boolean return if registered or not
             $register = registerUser($usertype, $name, $email, $password, $city, $district, $address);
             
-            // user will be registered
-            if (isset($remember)) {
-               $token = sha1(uniqid() . "Private Key is Here" . time()); // generate a random text
-               setcookie("remember_token", $token, time() + 60*60*24*365*1); // for 10 years
-               setTokenToUser($token, $email);
+            if (!$register) {
+               $errors["register"] = "Cannot register to the system, please try later!";
+            } else {
+               // user will be registered
+               if (isset($remember)) {
+                  $token = sha1(uniqid() . "Private Key is Here" . time()); // generate a random text
+                  setcookie("remember_token", $token, time() + 60*60*24*365*1); // for 10 years
+                  setTokenToUser($token, $email);
+               }
+
+               // login as $user, and to store user data in the tmp/session file as crypted
+               $user_data = ["type" => $usertype, "name" => $name, "email" => $email, "password" => $password, "city" => $city, "district" => $district, "address" => $address, "usrtoken" => $token];
+
+               $_SESSION["user"] = $user_data;
+               
+               // var_dump($_POST);
+               // var_dump($register);
+
+               header("Location: main.php");
+               exit;
             }
-
-            // login as $user, and to store user data in the tmp/session file as crypted
-            $user_data = ["type" => $usertype, "name" => $name, "email" => $email, "password" => $password, "city" => $city, "district" => $district, "address" => $address, "usrtoken" => $token];
-
-            $_SESSION["user"] = $user_data;
-            
-            header("Location: main.php");
-            exit;
          }
       }
 ?>
@@ -77,7 +79,7 @@
                   <label for="customer">
                      <img class="type_logo" src="./assets/system/customer_32px.png" alt="">
                      <div class="radioButtonDiv">
-                        <input type="radio" id="customer" class="userType" name="usertype" value="C">
+                        <input type="radio" id="customer" class="userType" name="usertype" value="C" checked>
                      </div>
                   </label>
                </div>

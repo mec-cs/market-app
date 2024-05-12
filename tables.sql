@@ -121,8 +121,7 @@ DROP TABLE IF EXISTS `role_table`;
 CREATE TABLE `role_table` (
   `email` varchar(100) COLLATE utf8mb4_turkish_ci NOT NULL,
   `role` char(1) COLLATE utf8mb4_turkish_ci NOT NULL,
-  PRIMARY KEY (`email`),
-  CONSTRAINT `role_table_auth_table_fk` FOREIGN KEY (`email`) REFERENCES `auth_table` (`email`) ON DELETE CASCADE
+  PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -51,21 +51,32 @@ function registerUser($type, $name, $mail, $passwd, $city, $district, $addr) {
      global $db;
 
      try {
-          $stmt = $db->prepare("insert into auth_table(email, passwd, usrtoken) values (?, ?, NULL)");
+          $stmt = $db->prepare("insert into auth_table(email, password, usrtoken) values (?, ?, NULL)");
           $stmt->execute([$mail, $passwd]);
-          
-          $stmt = $db->prepare("insert into user_table(email, u_name) values (?, ?)");
+          $stmt = $db->prepare("insert into user_table(email, name) values (?, ?)");
           $stmt->execute([$mail, $name]);
-          
-          $stmt = $db->prepare("insert into role_table(u_name, u_role) values (?, ?)");
-          $stmt->execute([$name, $type]);
-
           $stmt = $db->prepare("insert into address_table(email, city, district, addr) values (?, ?, ?, ?)");
           $stmt->execute([$mail, $city, $district, $addr]);
 
+
+
+          $stmt = $db->prepare("insert into role_table(email, role) values (?, ?)");
+          $stmt->execute([$name, $type]);
+
+
+          if ($type == "M") {
+               $stmt = $db->prepare("select id from address_table where email = ?");
+               $stmt->execute([$mail]);
+               $address_id = $stmt->fetch();
+               // var_dump($address_id);
+
+               $stmt = $db->prepare("insert into company_table(c_name, c_address_table, number_of_product_tables, c_image) values(?, ?, 0, 'default.png')");
+               $stmt->execute([$name, $address_id["id"]]);
+          }
+
           return true;
      } catch (PDOException $e) {
-          return $e;
+          return false;
      }
 }
 
@@ -128,4 +139,13 @@ function getAddress($email){
      
      return $stmt->fetch();
 }
+
+function isValidName($name) {
+return preg_match("/^[a-zA-Z ]+$/", $name);
+}
+
+function isValidEmail($email) {
+return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+ 
 ?>
