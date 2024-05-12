@@ -1,0 +1,7 @@
+ErrorDocument 400 /market-app/error.php
+ErrorDocument 401 /market-app/error.php
+ErrorDocument 403 /market-app/error.php
+ErrorDocument 404 /market-app/error.php
+ErrorDocument 500 /market-app/error.php
+ErrorDocument 502 /market-app/error.php
+ErrorDocument 503 /market-app/error.php
