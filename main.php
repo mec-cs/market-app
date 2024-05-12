@@ -14,30 +14,35 @@
         header("Location: index.php?error") ;
         exit ; 
     }
-    
+
+
+
+    function setPagings($size){
+        global $page;
+        global $totalPages;
+        global $start;
+        global $end;
+
+        $totalPages = ceil($size/PAGESIZE);
+        $start = ($page - 1) * PAGESIZE ; 
+        $end = $start + PAGESIZE ; 
+        $end = $end > $size ? $size : $end ; 
+   }
+
     $user = $_SESSION["user"];
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
-
-    //var_dump($role);
+    $page = $_GET["page"] ?? 1;
     if($role['role'] == "M"){
         $market = getMarket($address['id']);
 
-        $page = $_GET["page"] ?? 1 ; 
         if(isset($_POST['query'])){
             $query = $_POST['query'];
             $_SESSION['last_query'] = $query;
             $products = getMarketProductsByPageNumberQuery($market['c_id'], $query);
 
             $size = count($products); 
-
-            $totalPages = ceil($size/PAGESIZE) ;
-
-            $start = ($page - 1) * PAGESIZE ; 
-            $end = $start + PAGESIZE ; 
-            $end = $end > $size ? $size : $end ; 
-
-            
+            setPagings($size);
         }
         else{
             if(isset($_SESSION['last_query'])){
@@ -51,20 +56,11 @@
 
 
                 $size = count($products); 
-
-                $totalPages = ceil($size/PAGESIZE) ;
-
-                $start = ($page - 1) * PAGESIZE ; 
-                $end = $start + PAGESIZE ; 
-                $end = $end > $size ? $size : $end ; 
+                setPagings($size);
             }
             else{
                 $size = $market['number_of_products']; 
-                $totalPages = ceil($size/PAGESIZE) ;
-
-                $start = ($page - 1) * PAGESIZE ; 
-                $end = $start + PAGESIZE ; 
-                $end = $end > $size ? $size : $end ; 
+                setPagings($size);
 
                 $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
             }
