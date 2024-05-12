@@ -88,7 +88,7 @@
     }
     else {
         $products = getAllProductsByPageNumber(0, 5);
-        
+
         $size = count($products); 
         $totalPages = ceil($size/PAGESIZE) ;
     }
@@ -108,14 +108,8 @@
 
     <form action="" method="post">
     <input type="text" name="query" value="<?= isset($_SESSION['last_query']) ? $_SESSION['last_query'] : ''; ?>" placeholder="Search a product">
-
-
-
     </form>
 
-
-
-    
     <table>
     <?php 
         echo "<tr>";
@@ -168,6 +162,7 @@
                 echo "</td>";
 
                 echo "<td>";
+                if($role['role'] == "M"){
                 echo "
                 <a href=''>
                     <img src='./assets/system/delete.png' alt='Delete' width='30'>
@@ -176,21 +171,17 @@
                 <a href=''>
                     <img src='./assets/system/edit.png' alt='Update' width='30'>
                 </a>";
-                
+                } else {
+                    echo "
+                    <a href=''>
+                        <img src='./assets/system/add.png' alt='Add' width='30'>
+                    </a>";
+                }
                 echo "</td>";
 
             echo "</tr>";
-
-
         }
-        
-
-
-        // edit profile button
-            // directing to the profile.php
     ?>
-
-
     </table>
 
     <a href="./profile.php">profile</a>
