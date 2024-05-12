@@ -180,7 +180,7 @@ CREATE TABLE `address_table` (
 
 
 /*!40000 ALTER TABLE `address_table` DISABLE KEYS */;
-INSERT INTO `address_table` VALUES (1,'ali@gmail.com','Kocaeli','Gebze','Asım Sokak no:70/54'),(2,'kizilay@gmail.com','Ankara','Kizilay','Meşrutiyet Caddesi no:19/08'),(5,'batuuzun81@gmail.com','Istanbul','Kadıköy','Göztepe Mahallesi, Afacan Sokak No:61/55'),(6,'mehmetenes@gmail.com','Ankara','Bahçelievler','Sorar Sokak no:14/7'),(7,'hakansibi@gmail.com','Ankara','Kızılay','Vadi Sokak no:78/3');
+INSERT INTO `address_table` VALUES (1,'ali@gmail.com','Kocaeli','Gebze','Asım Sokak no:70/54'),(2,'kizilay@gmail.com','Ankara','Kızılay','Meşrutiyet Caddesi no:19/08'),(5,'batuuzun81@gmail.com','Istanbul','Kadıköy','Göztepe Mahallesi, Afacan Sokak No:61/55'),(6,'mehmetenes@gmail.com','Ankara','Bahçelievler','Sorar Sokak no:14/7'),(7,'hakansibi@gmail.com','Ankara','Kızılay','Vadi Sokak no:78/3');
 /*!40000 ALTER TABLE `address_table` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
