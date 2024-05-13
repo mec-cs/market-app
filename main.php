@@ -305,4 +305,13 @@
 
     </script>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+<style>
+        span {
+            color: red;
+        }
+    </style>
+>>>>>>> parent of 759c9e7 (Merge branch 'main' of https://github.com/mec-cs/market-app)
