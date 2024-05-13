@@ -22,9 +22,8 @@
         global $end;
 
         $totalPages = ceil($size/PAGESIZE);
-        $start = ($page - 1) * PAGESIZE ; 
-        $end = $start + PAGESIZE ; 
-        $end = $end > $size ? $size : $end ; 
+        $start = ($page - 1) * PAGESIZE;
+        $end = $start + PAGESIZE;
    }
 
     $user = $_SESSION["user"];
@@ -98,17 +97,22 @@
                         $error[] = "{$file['name']} is greater than max upload size in '<b>$fb</b>'" ;
                     } 
                     extract($_POST);
-                    addProduct($p_name, $p_stock, $p_expire, $market["c_id"], "default.png", $p_price);
+                    addProduct($p_name, $p_stock, $p_expire, $market["c_id"], "default.png", $p_price, $p_altprice);
                 } else {
                     extract($_POST);
                     move_uploaded_file($file["tmp_name"], "./assets/product/" . $file["name"]) ;
-                    addProduct($p_name, $p_stock, $p_expire, $market["c_id"], $file["name"], $p_price);
+                    addProduct($p_name, $p_stock, $p_expire, $market["c_id"], $file["name"], $p_price, $p_altprice);
                 }
                 $size = getNumberOfProducts($market["c_id"]);
                 setPagings($size);
                 $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
              } 
-        } else { //edit
+        } elseif (isset($_POST["discount"])) { //change discounted attribute
+            var_dump($_POST);
+            changeProductDiscount(abs($_POST["discount"]));
+            $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
+        } 
+        else { //edit
             updateProduct($_POST);
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
         }
@@ -162,6 +166,10 @@
 
             echo "<th>";
                 echo "PRICE";
+            echo "</th>";
+
+            echo "<th>";
+            echo "DISCOUNT";
             echo "</th>";
 
             echo "<th>";
@@ -225,9 +233,33 @@
                     echo $p["p_price"];
                     echo '">';
                 } else {
-                    echo $p['p_price'];
+                    if($p["p_discounted"]) {
+                        echo $p["p_altprice"];
+                    } else {
+                        echo $p['p_price'];
+                    }
                 }
                 echo "</td>";
+                echo "<td>";
+                if(isset($_GET["edit"]) && $_GET["edit"] == $p["p_id"]){
+                    echo '<input type="text" name="p_altprice" value="';
+                    echo $p["p_altprice"];
+                    echo '">';
+                } else {
+                    if($role['role'] == "M" && !isset($_GET["edit"])){
+                        echo '<td>
+                        <form method="POST" action="?">
+                        <div>
+                        <input type="hidden" name="discount" value="';
+                        echo $p["p_id"] . '">';
+                        echo '<input class="" type="checkbox" id="" name="discount" onclick="this.previousSibling.value=this.value" onchange="this.form.submit()" value="';
+                        echo $p["p_id"] . '"';
+                        echo $p["p_discounted"] ? "checked" : ""; 
+                        echo '></div></form></td>';
+                    }
+                }
+                echo "</td>";
+
 
                 echo "<td>";
                 if($role['role'] == "M"){
@@ -277,11 +309,12 @@
             <td><input type="text" name="p_stock" value="" placeholder="Stock"></td>
             <td><input type="text" name="p_expire" value="" placeholder="Expire Date"></td>
             <td><input type="text" name="p_price" value="" placeholder="Price"></td>
+            <td><input type="text" name="p_altprice" value="" placeholder="Discounted Price"></td>
             <td><button style="border:0px solid black; background-color: transparent" name="add" action="?"><img src="./assets/system/save.png" alt="Save" width="30"></button></td>
             </tr>
             </form>
     <?php elseif($role['role'] === "M"):  ?>
-        <tr><td></td><td></td><td></td><td></td><td></td>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td>
         <td><a href="?add"><img src="./assets/system/add.png" alt="Add" width="30"></a></td>
     <?php endif;  ?>
     </table>
@@ -327,4 +360,4 @@
         span {
             color: red;
         }
-    </style>
+</style>

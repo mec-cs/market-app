@@ -189,10 +189,10 @@ function deleteProduct($c_id, $p_id){
      $stmt->execute([]);
 }
 
-function addProduct($p_name, $p_stock, $p_expire, $c_id, $p_image, $p_price){
+function addProduct($p_name, $p_stock, $p_expire, $c_id, $p_image, $p_price, $p_altprice){
      global $db;
-     $stmt = $db->prepare("INSERT INTO product_table(p_name, p_stock, p_expire, c_id, p_image, p_price) VALUES(?, ?, ?, ?, ?, ?)");
-     $stmt->execute([$p_name, intval($p_stock), $p_expire, $c_id, $p_image, floatval($p_price)]);
+     $stmt = $db->prepare("INSERT INTO product_table(p_name, p_stock, p_expire, c_id, p_image, p_price, p_altprice) VALUES(?, ?, ?, ?, ?, ?, ?)");
+     $stmt->execute([$p_name, intval($p_stock), $p_expire, $c_id, $p_image, floatval($p_price), floatval($p_altprice)]);
      $stmt = $db->prepare("UPDATE company_table SET number_of_products = number_of_products + 1 WHERE c_id = $c_id");
      $stmt->execute([]);
 }
