@@ -106,12 +106,14 @@
         } else { //edit
             updateProduct($_POST);
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
-        
         }
     } else {
         if(isset($_GET['delete'])) {
             $market = getMarket($address['id']);
             deleteProduct($market['c_id'], $_GET['delete']);
+            $size = getNumberOfProducts($market["c_id"]);
+            setPagings($size);
+            $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
         }
     }
 ?>
