@@ -174,7 +174,7 @@
 
                 echo "<td>";
                 if(isset($_GET["edit"]) && $_GET["edit"] == $p["p_id"]){
-                    echo '<input type="text" name="p_name" value="" placeholder="';
+                    echo '<input type="text" name="p_name" value="';
                     echo $p["p_name"];
                     echo '">';
                 } else {
@@ -184,7 +184,7 @@
 
                 echo "<td>";
                 if(isset($_GET["edit"]) && $_GET["edit"] == $p["p_id"]){
-                    echo '<input type="text" name="p_stock" value="" placeholder="';
+                    echo '<input type="text" name="p_stock" value="';
                     echo $p["p_stock"];
                     echo '">';
                 } else {
@@ -194,7 +194,7 @@
 
                 echo "<td>";
                 if(isset($_GET["edit"]) && $_GET["edit"] == $p["p_id"]){
-                    echo '<input type="text" name="p_expire" value="" placeholder="';
+                    echo '<input type="text" name="p_expire" value="';
                     echo $p["p_expire"];
                     echo '">';
                 } else {
@@ -204,7 +204,7 @@
 
                 echo "<td>";
                 if(isset($_GET["edit"]) && $_GET["edit"] == $p["p_id"]){
-                    echo '<input type="text" name="p_price" value="" placeholder="';
+                    echo '<input type="text" name="p_price" value="';
                     echo $p["p_price"];
                     echo '">';
                 } else {
@@ -278,7 +278,7 @@
                 echo "<a href='?page=$i'>$i</a> " ;
          }
     ?>
-    <script>var input = document.querySelectorAll('input');for(i=0; i<input.length; i++){input[i].setAttribute('size',input[i].getAttribute('placeholder').length);}   </script>
+    <script>var input = document.querySelectorAll('input');for(i=0; i<input.length; i++){input[i].setAttribute('size',input[i].getAttribute('value').length);}   </script>
     <script>
         function dropHandler(ev) {
              ev.preventDefault();

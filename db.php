@@ -173,11 +173,9 @@ function updateProduct($post){
 
      $p_id = $post["p_id"];
      foreach($post as $key => $value) {
-          if($value != "") {
-               $stmt = $db->prepare("UPDATE product_table SET $key=$value WHERE p_id=$p_id");
-               $stmt->execute();
-               $flag = true;
-          }
+          $stmt = $db->prepare("UPDATE product_table SET $key=? WHERE p_id=$p_id");
+          $stmt->execute([$value]);
+          $flag = true;
      }
      
      return $flag;
