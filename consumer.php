@@ -32,8 +32,7 @@
 
         $totalPages = ceil($size/PAGESIZE);
         $start = ($page - 1) * PAGESIZE ; 
-        $end = $start + PAGESIZE ; 
-        $end = $end > $size ? $size : $end ; 
+        $end = $start + PAGESIZE ;
    }
 
     $user = $_SESSION["user"];
@@ -89,8 +88,8 @@
                     $market = getMarket($address['id']);
                     $size = $market['number_of_products']; 
                     setPagings($size);
-    
-                    $products[] = getMarketProductsByPageNumber($start, $end, getMarket($address['id'])["c_id"]);
+                    extract($address);
+                    $products = getAllProductsByPageNumber(0, 5, $city, $district);
                 }
                 
             }
@@ -179,7 +178,11 @@
 
                 echo "<td>";
                 
+                if($p["p_discounted"]) {
+                    echo $p["p_altprice"];
+                } else {
                     echo $p['p_price'];
+                }
                 
                 echo "</td>";
 

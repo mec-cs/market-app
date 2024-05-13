@@ -32,7 +32,7 @@
     $page = $_GET["page"] ?? 1;
 
     if($role['role'] == "C"){
-        header("Location: consumer.php");
+        //header("Location: consumer.php");
     }
 
     if($role['role'] == "M"){
@@ -175,7 +175,6 @@
                 echo "OPERATION";
             echo "</th>";
         echo "</tr>";
-
 
         foreach($products as $p){
             echo "<tr>";
