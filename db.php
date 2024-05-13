@@ -2,7 +2,7 @@
 
 const DSN = "mysql:host=localhost;dbname=market-php-db;charset=utf8mb4";
 const USER = "root";
-const PASSWD = "";
+const PASSWD = "Ayhan1989";
 
 try {
      $db = new PDO(DSN, USER, PASSWD); 
@@ -225,9 +225,6 @@ function getMarketListInAddress($city, $district){
 
      $stmt->execute([$city, $district]);
      return $stmt->fetchAll();
-
-     
-
 }
 
 function getCompanyByName($name){
@@ -236,8 +233,6 @@ function getCompanyByName($name){
 
      $stmt->execute([$name]);
      return $stmt->fetch();
-
-
 }
 
 function getEmailByCompanyName($name){
