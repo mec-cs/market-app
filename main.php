@@ -108,7 +108,6 @@
                 $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
              } 
         } elseif (isset($_POST["discount"])) { //change discounted attribute
-            var_dump($_POST);
             changeProductDiscount(abs($_POST["discount"]));
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
         } 
