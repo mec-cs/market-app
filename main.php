@@ -246,7 +246,7 @@
                     echo '">';
                 } else {
                     if($role['role'] == "M" && !isset($_GET["edit"])){
-                        echo '<td>
+                        echo '
                         <form method="POST" action="?">
                         <div>
                         <input type="hidden" name="discount" value="';
@@ -313,7 +313,7 @@
             </tr>
             </form>
     <?php elseif($role['role'] === "M"):  ?>
-        <tr><td></td><td></td><td></td><td></td><td></td><td></td>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
         <td><a href="?add"><img src="./assets/system/add.png" alt="Add" width="30"></a></td>
     <?php endif;  ?>
     </table>
