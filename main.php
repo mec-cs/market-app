@@ -90,7 +90,7 @@
                         $error[] = "{$file['name']} is greater than max upload size in '<b>$fb</b>'" ;
                     } 
                 } else {
-                    move_uploaded_file($file["tmp_name"], "./files/" . $file["name"]) ;
+                    move_uploaded_file($file["tmp_name"], "./assets/company/" . $file["name"]) ;
                 }
              } 
             var_dump($_POST);
@@ -235,7 +235,7 @@
                 ondrop="dropHandler(event);"
                 ondragover="dragOverHandler(event);">
                 <p>Drag one or more files to this <i>drop zone</i>.</p>
-                <input type="hidden" type="file" name="p_file" value="" placeholder="Name">
+                <input type="file" style="display:none"name="p_file" value="" placeholder="Name">
                 <input type="hidden" name="form" value="file" placeholder="Name">
             </div>
             </td>
