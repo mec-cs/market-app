@@ -22,11 +22,10 @@
         global $end;
 
         $totalPages = ceil($size/PAGESIZE);
-        $start = ($page - 1) * PAGESIZE ; 
-        $end = $start + PAGESIZE ; 
-        $end = $end > $size ? $size : $end ; 
+        $start = ($page - 1) * PAGESIZE;
+        $end = $start + PAGESIZE;
    }
-
+   
     $user = $_SESSION["user"];
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
@@ -277,6 +276,7 @@
             <td><input type="text" name="p_stock" value="" placeholder="Stock"></td>
             <td><input type="text" name="p_expire" value="" placeholder="Expire Date"></td>
             <td><input type="text" name="p_price" value="" placeholder="Price"></td>
+            <td><input type="text" name="p_altprice" value="" placeholder="Discounted Price"></td>
             <td><button style="border:0px solid black; background-color: transparent" name="add" action="?"><img src="./assets/system/save.png" alt="Save" width="30"></button></td>
             </tr>
             </form>
