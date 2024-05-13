@@ -266,6 +266,8 @@ CREATE TABLE `product_table` (
   `c_id` int DEFAULT NULL,
   `p_image` varchar(100) COLLATE utf8mb4_turkish_ci DEFAULT NULL,
   `p_price` decimal(10,2) DEFAULT NULL,
+  `p_altprice` decimal(10,2) DEFAULT NULL,
+  `p_discounted` boolean DEFAULT FALSE,
   PRIMARY KEY (`p_id`),
   KEY `c_id` (`c_id`),
   CONSTRAINT `product_table_ibfk_1` FOREIGN KEY (`c_id`) REFERENCES `company_table` (`c_id`)
@@ -278,7 +280,7 @@ CREATE TABLE `product_table` (
 
 
 /*!40000 ALTER TABLE `product_table` DISABLE KEYS */;
-INSERT INTO `product_table` VALUES (1,'Falım Naneli',50,'2024-08-15',1,'falım_nane.jpg',1.50),(2,'Ülker Çikolatalı Gofret',100,'2024-06-30',2,'ülker_gofret.jpg',5.99),(3,'Eti Sütlü Çikolata',50,'2024-08-15',3,'eti_sütlü_çikolata.jpg',8.50),(4,'Eti Cin',75,'2024-07-20',3,'eti_cin.jpg',3.75);
+INSERT INTO `product_table` VALUES (1,'Falım Naneli',50,'2024-08-15',1,'falım_nane.jpg',1.50, 1.0, FALSE),(2,'Ülker Çikolatalı Gofret',100,'2024-06-30',2,'ülker_gofret.jpg',5.99, 4.99, FALSE),(3,'Eti Sütlü Çikolata',50,'2024-08-15',3,'eti_sütlü_çikolata.jpg',8.50, 5.99, FALSE),(4,'Eti Cin',75,'2024-07-20',3,'eti_cin.jpg',3.75, 2.99, FALSE);
 /*!40000 ALTER TABLE `product_table` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
