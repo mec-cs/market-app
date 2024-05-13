@@ -2,7 +2,7 @@
 
 const DSN = "mysql:host=localhost;dbname=market-php-db;charset=utf8mb4";
 const USER = "root";
-const PASSWD = "";
+const PASSWD = "Ayhan1989";
 
 try {
      $db = new PDO(DSN, USER, PASSWD); 
@@ -189,11 +189,58 @@ function deleteProduct($c_id, $p_id){
      $stmt->execute([]);
 }
 
-function addProduct($p_name, $p_stock, $p_expire, $c_id, $p_image, $p_price){
+function addProduct($p_name, $p_stock, $p_expire, $c_id, $p_image, $p_price, $p_altprice){
      global $db;
-     $stmt = $db->prepare("INSERT INTO product_table(p_name, p_stock, p_expire, c_id, p_image, p_price) VALUES(?, ?, ?, ?, ?, ?)");
-     $stmt->execute([$p_name, intval($p_stock), $p_expire, $c_id, $p_image, floatval($p_price)]);
+     $stmt = $db->prepare("INSERT INTO product_table(p_name, p_stock, p_expire, c_id, p_image, p_price, p_altprice) VALUES(?, ?, ?, ?, ?, ?, ?)");
+     $stmt->execute([$p_name, intval($p_stock), $p_expire, $c_id, $p_image, floatval($p_price), floatval($p_altprice)]);
      $stmt = $db->prepare("UPDATE company_table SET number_of_products = number_of_products + 1 WHERE c_id = $c_id");
      $stmt->execute([]);
 }
+
+function getConsumerAddress($email){
+     global $db;
+     $stmt = $db->prepare("SELECT * FROM address_table WHERE email=?");
+     $stmt->execute([$email]);
+     return $stmt->fetch();
+}
+
+function getMarketListInAddress($city, $district){
+     global $db;
+     $stmt = $db->prepare("SELECT u.name, a.city, a.district
+     FROM user_table u
+     JOIN role_table r ON u.email = r.email
+     JOIN address_table a ON u.email = a.email
+     WHERE r.role = 'M'
+     AND EXISTS (
+         SELECT 1
+         FROM address_table a2
+         WHERE a.city = ?
+         AND a.district = ?
+         AND a2.email = u.email)");
+
+     $stmt->execute([$city, $district]);
+     return $stmt->fetchAll();
+
+     
+
+}
+
+function getCompanyByName($name){
+     global $db;
+     $stmt = $db->prepare("select * from company_table where c_name=?");
+
+     $stmt->execute([$name]);
+     return $stmt->fetch();
+
+
+}
+
+function getEmailByCompanyName($name){
+     global $db;
+     $stmt = $db->prepare("select * from user_table where name=?");
+
+     $stmt->execute([$name]);
+     return $stmt->fetch();
+}
+
 ?>
