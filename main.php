@@ -218,7 +218,7 @@
                 <a href='?delete=$p[p_id]'>
                     <img src='./assets/system/delete.png' alt='Delete' width='30'>
                 </a>";
-                if(isset($_GET["edit"])) {
+                if(isset($_GET["edit"]) && $p["p_id"] == $_GET["edit"]) {
                     echo "
                     <button style='border:0px solid black; background-color: transparent' name='p_id' value='$p[p_id]'action='?'><img src='./assets/system/save.png' alt='Save' width='30'></button>
                     <a href='?edit=$p[p_id]'>
