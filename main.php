@@ -246,7 +246,7 @@
                     echo '">';
                 } else {
                     if($role['role'] == "M" && !isset($_GET["edit"])){
-                        echo '<td>
+                        echo '
                         <form method="POST" action="?">
                         <div>
                         <input type="hidden" name="discount" value="';
