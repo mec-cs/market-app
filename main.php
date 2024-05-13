@@ -307,6 +307,7 @@
 </body>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 </html>
 =======
 </html>
@@ -316,6 +317,9 @@
         }
     </style>
 >>>>>>> parent of 759c9e7 (Merge branch 'main' of https://github.com/mec-cs/market-app)
+=======
+</html>
+>>>>>>> parent of 982c542 (Merge branch 'main' of https://github.com/mec-cs/market-app)
 =======
 </html>
 >>>>>>> parent of 982c542 (Merge branch 'main' of https://github.com/mec-cs/market-app)
