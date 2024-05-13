@@ -253,7 +253,7 @@
                 <img src="" name="preview" style="display:none" alt="" width="70px">
                 <p>Drag one or more files to this</p>
                 <input type="file" style="display:none" name="p_file" value="" placeholder="Name">
-                <input type="hidden" name="form" value="add" placeholder="Name">
+                <input type="hidden" name="form" value="add">
             </div>
             </td>
             <td><input type="text" name="p_name" value="" placeholder="Name"></td>
