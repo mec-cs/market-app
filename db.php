@@ -197,6 +197,12 @@ function addProduct($p_name, $p_stock, $p_expire, $c_id, $p_image, $p_price, $p_
      $stmt->execute([]);
 }
 
+function changeProductDiscount($p_id){
+     global $db;
+     $stmt = $db->prepare("UPDATE product_table SET p_discounted = NOT p_discounted WHERE p_id = ?");
+     $stmt->execute([$p_id]);
+}
+
 function getConsumerAddress($email){
      global $db;
      $stmt = $db->prepare("SELECT * FROM address_table WHERE email=?");
@@ -220,9 +226,6 @@ function getMarketListInAddress($city, $district){
 
      $stmt->execute([$city, $district]);
      return $stmt->fetchAll();
-
-     
-
 }
 
 function getCompanyByName($name){
@@ -231,8 +234,6 @@ function getCompanyByName($name){
 
      $stmt->execute([$name]);
      return $stmt->fetch();
-
-
 }
 
 function getEmailByCompanyName($name){
@@ -242,5 +243,4 @@ function getEmailByCompanyName($name){
      $stmt->execute([$name]);
      return $stmt->fetch();
 }
-
 ?>
