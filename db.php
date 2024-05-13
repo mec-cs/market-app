@@ -108,19 +108,27 @@ function getUserRole($email){
 
 function getMarketProductsByPageNumber($start, $end, $id){
      global $db;
-     $stmt = $db->prepare("SELECT * FROM product_table WHERE c_id=? LIMIT $start, $end;");
+     $stmt = $db->prepare("SELECT  * FROM product_table WHERE c_id=? LIMIT $start, $end;");
      $stmt->execute([$id]);
 
      return $stmt->fetchAll();
 }
 
-function getMarketProductsByPageNumberQuery($id, $query){
+function getMarketProductsByQuery($id, $query){
      global $db;
      $stmt = $db->prepare("SELECT * FROM product_table WHERE c_id=? AND p_name LIKE ?");
      $searchTerm = "%$query%"; // Assuming you're searching for the term within the product name
      $stmt->execute([$id, $searchTerm]);
 
      return $stmt->fetchAll();
+}
+
+function getNumberOfProducts($c_id){
+     global $db;
+     $stmt = $db->prepare("SELECT COUNT(*) as count FROM product_table WHERE c_id=?");
+     $stmt->execute([$c_id]);
+
+     return $stmt->fetchAll()[0]['count'];
 }
 
 function getAllProductsByPageNumber($start, $end, $city, $district){
@@ -134,8 +142,6 @@ function getAllProductsByPageNumber($start, $end, $city, $district){
      
      return $stmt->fetchAll();
 }
-
-
 
 function getMarket($id){
      global $db;
@@ -177,9 +183,19 @@ function updateProduct($post){
      return $flag;
 }
 
-function deleteProduct($p_id){
+function deleteProduct($c_id, $p_id){
      global $db;
      $stmt = $db->prepare("DELETE FROM product_table WHERE p_id=$p_id");
-     $stmt->execute();
+     $stmt->execute([]);
+     $stmt = $db->prepare("UPDATE company_table SET number_of_products = number_of_products - 1 WHERE c_id = $c_id");
+     $stmt->execute([]);
+}
+
+function addProduct($p_name, $p_stock, $p_expire, $c_id, $p_image, $p_price){
+     global $db;
+     $stmt = $db->prepare("INSERT INTO product_table(p_name, p_stock, p_expire, c_id, p_image, p_price) VALUES(?, ?, ?, ?, ?, ?)");
+     $stmt->execute([$p_name, intval($p_stock), $p_expire, $c_id, $p_image, floatval($p_price)]);
+     $stmt = $db->prepare("UPDATE company_table SET number_of_products = number_of_products + 1 WHERE c_id = $c_id");
+     $stmt->execute([]);
 }
 ?>

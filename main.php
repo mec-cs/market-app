@@ -31,13 +31,15 @@
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
     $page = $_GET["page"] ?? 1;
+    $size = getNumberOfProducts(getMarket($address['id'])["c_id"]);
+    setPagings($size);
     if($role['role'] == "M"){
         $market = getMarket($address['id']);
 
         if(isset($_POST['query'])){
             $query = $_POST['query'];
             $_SESSION['last_query'] = $query;
-            $products = getMarketProductsByPageNumberQuery($market['c_id'], $query);
+            $products = getMarketProductsByQuery($market['c_id'], $query);
 
             $size = count($products); 
             setPagings($size);
@@ -48,15 +50,16 @@
                     unset($_SESSION['last_query']);
                 }
                 if(isset($_SESSION['last_query']))
-                    $products = getMarketProductsByPageNumberQuery($market['c_id'], $_SESSION['last_query']);
+                    $products = getMarketProductsByQuery($market['c_id'], $_SESSION['last_query']);
                 else
-                    $products = getMarketProductsByPageNumberQuery($market['c_id'], "");
+                    $products = getMarketProductsByQuery($market['c_id'], "");
 
 
                 $size = count($products); 
                 setPagings($size);
             }
             else{
+                $market = getMarket($address['id']);
                 $size = $market['number_of_products']; 
                 setPagings($size);
 
@@ -81,7 +84,7 @@
     }
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
-        if(isset($_POST["form"]) && $_POST["form"] == 'file') {
+        if(isset($_POST["form"]) && $_POST["form"] == 'add') { //add
             foreach($_FILES as $fb => $file) {
                 if ( $file["size"] == 0) {
                     if ( empty($file["name"])) {
@@ -89,14 +92,26 @@
                     } else {
                         $error[] = "{$file['name']} is greater than max upload size in '<b>$fb</b>'" ;
                     } 
+                    extract($_POST);
+                    addProduct($p_name, $p_stock, $p_expire, $market["c_id"], "default.png", $p_price);
                 } else {
+                    extract($_POST);
                     move_uploaded_file($file["tmp_name"], "./assets/company/" . $file["name"]) ;
+                    addProduct($p_name, $p_stock, $p_expire, $market["c_id"], $file["name"], $p_price);
                 }
+                $size = getNumberOfProducts($market["c_id"]);
+                setPagings($size);
+                $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
              } 
-            var_dump($_POST);
-        } else {
+        } else { //edit
             updateProduct($_POST);
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
+        
+        }
+    } else {
+        if(isset($_GET['delete'])) {
+            $market = getMarket($address['id']);
+            deleteProduct($market['c_id'], $_GET['delete']);
         }
     }
 ?>
@@ -111,8 +126,6 @@
 </head>
 <body>
 
-
-
     <form method="post">
     <input type="text" name="query" value="<?= isset($_SESSION['last_query']) ? $_SESSION['last_query'] : ''; ?>" placeholder="Search a product">
     </form>
@@ -125,7 +138,7 @@
 
         echo "<tr>";
             echo "<th>";
-                echo "";
+                echo "IMAGE";
             echo "</th>";
 
             echo "<th>";
@@ -199,7 +212,7 @@
                 echo "<td>";
                 if($role['role'] == "M"){
                 echo "
-                <a href=''>
+                <a href='?delete=$p[p_id]'>
                     <img src='./assets/system/delete.png' alt='Delete' width='30'>
                 </a>";
                 if(isset($_GET["edit"])) {
@@ -230,13 +243,14 @@
             <form action="?" method="post" enctype="multipart/form-data">
             <tr>
             <td>
-            <div style=" border: 5px solid blue; width: 50%; height: 50%;"
+            <div style="border: 2px solid black; width: 50%; height: 50%;"
                 id="drop_zone"
                 ondrop="dropHandler(event);"
                 ondragover="dragOverHandler(event);">
-                <p>Drag one or more files to this <i>drop zone</i>.</p>
-                <input type="file" style="display:none"name="p_file" value="" placeholder="Name">
-                <input type="hidden" name="form" value="file" placeholder="Name">
+                <img src="" name="preview" style="display:none" alt="" width="70px">
+                <p>Drag one or more files to this</p>
+                <input type="file" style="display:none" name="p_file" value="" placeholder="Name">
+                <input type="hidden" name="form" value="add" placeholder="Name">
             </div>
             </td>
             <td><input type="text" name="p_name" value="" placeholder="Name"></td>
@@ -274,6 +288,9 @@
                         const dataTransfer = new DataTransfer();
                         dataTransfer.items.add(file);
                         fileInput.files = dataTransfer.files;
+                        const preview = document.querySelector('img[name="preview"]');
+                        preview.src = URL.createObjectURL(file);
+                        preview.style = "display:inline"
                     }
             });
             }
