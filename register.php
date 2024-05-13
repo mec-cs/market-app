@@ -8,6 +8,8 @@
       header("X-XSS-Protection: 1; mode=block");
 
       require "db.php";
+      require_once './vendor/autoload.php' ;
+      require_once './mail.php' ;
      
       // if user auth, direct to the main.php
       if(isUserAuthenticated()) {
@@ -31,30 +33,28 @@
          } else if (!isValidName($name) || !isValidEmail($email)) {
             $errors["invalid"] = "Please give valid inputs to name or email!";
          } else {
-            // validated input will be used as parameter, boolean return if registered or not
-            $register = registerUser($usertype, $name, $email, $password, $city, $district, $address);
-            
-            if (!$register) {
-               $errors["register"] = "Cannot register to the system, please try later!";
-            } else {
-               // user will be registered
-               if (isset($remember)) {
-                  $token = sha1(uniqid() . "Private Key is Here" . time()); // generate a random text
-                  setcookie("remember_token", $token, time() + 60*60*24*365*1); // for 10 years
-                  setTokenToUser($token, $email);
-               }
-
-               // login as $user, and to store user data in the tmp/session file as crypted
-               $user_data = ["type" => $usertype, "name" => $name, "email" => $email, "password" => $password, "city" => $city, "district" => $district, "address" => $address, "usrtoken" => $token];
-
-               $_SESSION["user"] = $user_data;
-               
-               // var_dump($_POST);
-               // var_dump($register);
-
-               header("Location: main.php");
-               exit;
+   
+            // user will be registered
+            if (isset($remember)) {
+               $token = sha1(uniqid() . "Private Key is Here" . time()); // generate a random text
+               setcookie("remember_token", $token, time() + 60*60*24*365*1); // for 10 years
+               setTokenToUser($token, $email);
             }
+
+            // login as $user, and to store user data in the tmp/session file as crypted
+            $user_data = ["usertype" => $usertype, "name" => $name, "email" => $email, "password" => $password, "city" => $city, "district" => $district, "address" => $address, "usrtoken" => $token];
+
+            $_SESSION["user"] = $user_data;
+            $_SESSION["auth_code"] = mt_rand(100000, 999999);
+            
+            // sending authentication mail to the user
+            Mail::send("enes.cakir@ug.bilkent.edu.tr", "Welcome from Market App Team!", $_SESSION["auth_code"]) ;
+
+            // var_dump($_POST);
+            // var_dump($register);
+
+            header("Location: auth.php");
+            exit;
          }
       }
 ?>
