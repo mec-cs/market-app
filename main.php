@@ -32,6 +32,10 @@
     $role = getUserRole($user['email']);
     $page = $_GET["page"] ?? 1;
 
+    if($role['role'] == "C"){
+        header("Location: consumer.php");
+    }
+
     if($role['role'] == "M"){
         $size = getNumberOfProducts(getMarket($address['id'])["c_id"]);
         setPagings($size);
@@ -84,7 +88,7 @@
         $totalPages = ceil($size/PAGESIZE) ;
     }
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($query)){
         if(isset($_POST["form"]) && $_POST["form"] == 'add') { //add
             foreach($_FILES as $fb => $file) {
                 if ( $file["size"] == 0) {
@@ -198,7 +202,20 @@
                     echo $p["p_expire"];
                     echo '">';
                 } else {
-                    echo $p['p_expire'];
+                    $p_expire = $p["p_expire"];
+
+                    // Convert $p_expire to a Unix timestamp
+                    $p_expire_timestamp = strtotime($p_expire);
+
+                    // Get the current Unix timestamp
+                    $current_timestamp = time();
+                    if ($p_expire_timestamp > $current_timestamp) {
+                        // If $p_expire is greater than today, display red text
+                        echo $p["p_expire"];
+                    } else {
+                        // Otherwise, default text color
+                        echo "<span>{$p['p_expire']}</span>";
+                    }
                 }
                 echo "</td>";
 
@@ -306,3 +323,8 @@
     </script>
 </body>
 </html>
+<style>
+        span {
+            color: red;
+        }
+    </style>
