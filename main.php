@@ -81,8 +81,23 @@
     }
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
-        updateProduct($_POST);
-        $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
+        if(isset($_POST["form"]) && $_POST["form"] == 'file') {
+            foreach($_FILES as $fb => $file) {
+                if ( $file["size"] == 0) {
+                    if ( empty($file["name"])) {
+                        $error[] = "No file selected for filebox '<b>$fb</b>'" ;
+                    } else {
+                        $error[] = "{$file['name']} is greater than max upload size in '<b>$fb</b>'" ;
+                    } 
+                } else {
+                    move_uploaded_file($file["tmp_name"], "./files/" . $file["name"]) ;
+                }
+             } 
+            var_dump($_POST);
+        } else {
+            updateProduct($_POST);
+            $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
+        }
     }
 ?>
 
@@ -200,7 +215,7 @@
                     </a>";
                 }
 
-                } else {
+                } else { //if customer
                     echo "
                     <a href=''>
                         <img src='./assets/system/add.png' alt='Add' width='30'>
@@ -211,28 +226,31 @@
             echo "</tr>";
         }
 ?>
-    <?=
-    isset($_GET["edit"]) ? '</form>' : '';
-
-    if($role['role'] == "M"){
-        echo "    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-        <a href=''>
-        <img src='./assets/system/add.png' alt='Add' width='30'>
-        </a>
-        </td>
-    </tr>";
-    }
-    ?>
-    
-
+    <?php isset($_GET["edit"]) ? '</form>' : ''; if($role['role'] === "M" && isset($_GET["add"]) ): ?>
+            <form action="?" method="post" enctype="multipart/form-data">
+            <tr>
+            <td>
+            <div style=" border: 5px solid blue; width: 50%; height: 50%;"
+                id="drop_zone"
+                ondrop="dropHandler(event);"
+                ondragover="dragOverHandler(event);">
+                <p>Drag one or more files to this <i>drop zone</i>.</p>
+                <input type="hidden" type="file" name="p_file" value="" placeholder="Name">
+                <input type="hidden" name="form" value="file" placeholder="Name">
+            </div>
+            </td>
+            <td><input type="text" name="p_name" value="" placeholder="Name"></td>
+            <td><input type="text" name="p_stock" value="" placeholder="Stock"></td>
+            <td><input type="text" name="p_expire" value="" placeholder="Expire Date"></td>
+            <td><input type="text" name="p_price" value="" placeholder="Price"></td>
+            <td><button style="border:0px solid black; background-color: transparent" name="add" action="?"><img src="./assets/system/save.png" alt="Save" width="30"></button></td>
+            </tr>
+            </form>
+    <?php else:  ?>
+        <tr><td></td><td></td><td></td><td></td><td></td>
+        <td><a href="?add"><img src="./assets/system/add.png" alt="Add" width="30"></a></td>
+    <?php endif;  ?>
     </table>
-
     <a href="./profile.php">profile</a>
     <a href="./logout.php">logout</a>
 
@@ -244,5 +262,27 @@
          }
     ?>
     <script>var input = document.querySelectorAll('input');for(i=0; i<input.length; i++){input[i].setAttribute('size',input[i].getAttribute('placeholder').length);}   </script>
+    <script>
+        function dropHandler(ev) {
+             ev.preventDefault();
+             if (ev.dataTransfer.items) {
+                [...ev.dataTransfer.items].forEach((item, i) => {
+                    if (item.kind === "file") {
+                        const file = item.getAsFile();
+                        const fileInput = document.querySelector('input[type="file"]');
+    
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        fileInput.files = dataTransfer.files;
+                    }
+            });
+            }
+        }
+        function dragOverHandler(ev) {
+            ev.preventDefault();
+
+        }
+
+    </script>
 </body>
 </html>

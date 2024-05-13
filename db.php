@@ -182,6 +182,4 @@ function deleteProduct($p_id){
      $stmt = $db->prepare("DELETE FROM product_table WHERE p_id=$p_id");
      $stmt->execute();
 }
-
- 
 ?>
