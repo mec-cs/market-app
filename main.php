@@ -31,9 +31,10 @@
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
     $page = $_GET["page"] ?? 1;
-    $size = getNumberOfProducts(getMarket($address['id'])["c_id"]);
-    setPagings($size);
+
     if($role['role'] == "M"){
+        $size = getNumberOfProducts(getMarket($address['id'])["c_id"]);
+        setPagings($size);
         $market = getMarket($address['id']);
 
         if(isset($_POST['query'])){
@@ -96,7 +97,7 @@
                     addProduct($p_name, $p_stock, $p_expire, $market["c_id"], "default.png", $p_price);
                 } else {
                     extract($_POST);
-                    move_uploaded_file($file["tmp_name"], "./assets/company/" . $file["name"]) ;
+                    move_uploaded_file($file["tmp_name"], "./assets/product/" . $file["name"]) ;
                     addProduct($p_name, $p_stock, $p_expire, $market["c_id"], $file["name"], $p_price);
                 }
                 $size = getNumberOfProducts($market["c_id"]);
