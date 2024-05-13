@@ -166,10 +166,12 @@
             echo "<th>";
                 echo "PRICE";
             echo "</th>";
-
-            echo "<th>";
-            echo "DISCOUNT";
-            echo "</th>";
+            
+            if($role['role'] == "M") {
+                echo "<th>";
+                echo "DISCOUNT";
+                echo "</th>";
+            }
 
             echo "<th>";
                 echo "OPERATION";
@@ -238,6 +240,8 @@
                     }
                 }
                 echo "</td>";
+
+                if($role['role'] == "M") {
                 echo "<td>";
                 if(isset($_GET["edit"]) && $_GET["edit"] == $p["p_id"]){
                     echo '<input type="text" name="p_altprice" value="';
@@ -257,7 +261,7 @@
                     }
                 }
                 echo "</td>";
-
+                }
 
                 echo "<td>";
                 if($role['role'] == "M"){
