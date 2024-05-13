@@ -213,8 +213,9 @@
 ?>
     <?=
     isset($_GET["edit"]) ? '</form>' : '';
-    ?>
-    <tr>
+
+    if($role['role'] == "M"){
+        echo "    <tr>
         <td></td>
         <td></td>
         <td></td>
@@ -225,7 +226,11 @@
         <img src='./assets/system/add.png' alt='Add' width='30'>
         </a>
         </td>
-    </tr>
+    </tr>";
+    }
+    ?>
+    
+
     </table>
 
     <a href="./profile.php">profile</a>
