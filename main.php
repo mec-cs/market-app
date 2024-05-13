@@ -263,7 +263,7 @@
             <td><button style="border:0px solid black; background-color: transparent" name="add" action="?"><img src="./assets/system/save.png" alt="Save" width="30"></button></td>
             </tr>
             </form>
-    <?php else:  ?>
+    <?php elseif($role['role'] === "M"):  ?>
         <tr><td></td><td></td><td></td><td></td><td></td>
         <td><a href="?add"><img src="./assets/system/add.png" alt="Add" width="30"></a></td>
     <?php endif;  ?>
