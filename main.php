@@ -64,9 +64,7 @@
             }
             
         }
-            
          
-        
         //var_dump($products);
         echo "<h1>";
         echo "Welcome ". $market['c_name'];
