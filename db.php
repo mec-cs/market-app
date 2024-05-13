@@ -2,7 +2,7 @@
 
 const DSN = "mysql:host=localhost;dbname=market-php-db;charset=utf8mb4";
 const USER = "root";
-const PASSWD = "";
+const PASSWD = "Ayhan1989";
 
 try {
      $db = new PDO(DSN, USER, PASSWD); 
@@ -202,4 +202,50 @@ function changeProductDiscount($p_id){
      $stmt = $db->prepare("UPDATE product_table SET p_discounted = NOT p_discounted WHERE p_id = ?");
      $stmt->execute([$p_id]);
 }
+function getConsumerAddress($email){
+     global $db;
+     $stmt = $db->prepare("SELECT * FROM address_table WHERE email=?");
+     $stmt->execute([$email]);
+     return $stmt->fetch();
+}
+
+function getMarketListInAddress($city, $district){
+     global $db;
+     $stmt = $db->prepare("SELECT u.name, a.city, a.district
+     FROM user_table u
+     JOIN role_table r ON u.email = r.email
+     JOIN address_table a ON u.email = a.email
+     WHERE r.role = 'M'
+     AND EXISTS (
+         SELECT 1
+         FROM address_table a2
+         WHERE a.city = ?
+         AND a.district = ?
+         AND a2.email = u.email)");
+
+     $stmt->execute([$city, $district]);
+     return $stmt->fetchAll();
+
+     
+
+}
+
+function getCompanyByName($name){
+     global $db;
+     $stmt = $db->prepare("select * from company_table where c_name=?");
+
+     $stmt->execute([$name]);
+     return $stmt->fetch();
+
+
+}
+
+function getEmailByCompanyName($name){
+     global $db;
+     $stmt = $db->prepare("select * from user_table where name=?");
+
+     $stmt->execute([$name]);
+     return $stmt->fetch();
+}
+
 ?>
