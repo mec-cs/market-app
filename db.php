@@ -176,5 +176,12 @@ function updateProduct($post){
      
      return $flag;
 }
+
+function deleteProduct($p_id){
+     global $db
+     $stmt = $db->prepare("DELETE FROM product_table WHERE p_id=$p_id");
+     $stmt->execute();
+}
+
  
 ?>
