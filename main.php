@@ -146,7 +146,6 @@
     isset($_GET["edit"]) ? '<form action="?" method="post">' : '';
     ?>
     <?php 
-
         echo "<tr>";
             echo "<th>";
                 echo "IMAGE";

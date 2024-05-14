@@ -183,17 +183,18 @@ function updateProduct($post){
 
 function deleteProduct($c_id, $p_id){
      global $db;
+     if(isProductExist($p_id)) {
      $stmt = $db->prepare("SELECT p_image FROM product_table WHERE p_id=$p_id");
      $stmt->execute([]);
      $imageName = $stmt->fetch()['p_image'];
      if($imageName != "default.png") {
           unlink($_SERVER['DOCUMENT_ROOT']."/assets/product/$imageName");
      }
-
-     $stmt = $db->prepare("DELETE FROM product_table WHERE p_id=$p_id");
-     $stmt->execute([]);
-     $stmt = $db->prepare("UPDATE company_table SET number_of_products = number_of_products - 1 WHERE c_id = $c_id");
-     $stmt->execute([]);
+          $stmt = $db->prepare("DELETE FROM product_table WHERE p_id=$p_id");
+          $stmt->execute([]);
+          $stmt = $db->prepare("UPDATE company_table SET number_of_products = number_of_products - 1 WHERE c_id = $c_id");
+          $stmt->execute([]);
+     }
 }
 
 function addProduct($p_name, $p_stock, $p_expire, $c_id, $p_image, $p_price, $p_altprice){
@@ -248,6 +249,12 @@ function getEmailByCompanyName($name){
      $stmt = $db->prepare("select * from user_table where name=?");
 
      $stmt->execute([$name]);
+     return $stmt->fetch();
+}
+
+function isProductExist($p_id) {
+     global $db;
+     $stmt = $db->prepare("SELECT count(*) FROM product_table WHERE p_id = $p_id");
      return $stmt->fetch();
 }
 ?>
