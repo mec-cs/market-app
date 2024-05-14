@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <title>Market App Main Page</title>
 </head>
 <body>
 
@@ -39,6 +40,11 @@
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
     $page = $_GET["page"] ?? 1;
+
+    extract($address);
+    $products = getAllProductsByPageNumber(0, 5, $city, $district);
+    $size = count($products); 
+    setPagings($size);
 
     $address = getConsumerAddress($user['email']);
     //var_dump($address);
@@ -96,16 +102,9 @@
             
         }
     }
-
-
-
-    
     //var_dump($markets);
     //var_dump($size);
-    //var_dump($products);
-
-    
-        
+    //var_dump($products); 
 ?>
 <form method="post">
     <input type="text" name="query" value="<?= isset($_SESSION['last_query']) ? $_SESSION['last_query'] : ''; ?>" placeholder="Search a product">
