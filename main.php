@@ -302,8 +302,9 @@
                 ondrop="dropHandler(event);"
                 ondragover="dragOverHandler(event);">
                 <img src="" name="preview" style="display:none" alt="" width="70px">
-                <p>Drag one or more files to this</p>
-                <input type="file" style="display:none" name="p_file" value="" placeholder="Name">
+                <input onchange="readURL(event);" type="file" name="p_file" id="file" class="inputfile" style="width: 0.1px;height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1;" />
+                <label for="file" style="cursor: pointer; color:blue">Choose a file</label> or drag & drop.
+                <!-- <input type="file" style="display:none" name="p_file" value="" placeholder="Name"> -->
                 <input type="hidden" name="form" value="add">
             </div>
             </td>
@@ -332,6 +333,13 @@
     ?>
     <script>var input = document.querySelectorAll('input');for(i=0; i<input.length; i++){input[i].setAttribute('size',input[i].getAttribute('value').length);}   </script>
     <script>
+       function readURL(input) {  
+        console.log(input["target"]["files"]);
+        const file = input["target"]["files"][0];
+        const preview = document.querySelector('img[name="preview"]');
+        preview.src = URL.createObjectURL(file);
+        preview.style = "display:inline"
+}   
         function dropHandler(ev) {
              ev.preventDefault();
              if (ev.dataTransfer.items) {
