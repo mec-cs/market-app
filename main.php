@@ -100,7 +100,8 @@
                     addProduct($p_name, $p_stock, $p_expire, $market["c_id"], "default.png", $p_price, $p_altprice);
                 } else {
                     extract($_POST);
-                    move_uploaded_file($file["tmp_name"], "./assets/product/" . $file["name"]) ;
+                    $file["name"] = time().rand(0, 1000000).$file["name"];
+                    move_uploaded_file($file["tmp_name"], "./assets/product/" . $file["name"]);
                     addProduct($p_name, $p_stock, $p_expire, $market["c_id"], $file["name"], $p_price, $p_altprice);
                 }
                 $size = getNumberOfProducts($market["c_id"]);
