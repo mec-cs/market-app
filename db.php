@@ -255,6 +255,7 @@ function getEmailByCompanyName($name){
 function isProductExist($p_id) {
      global $db;
      $stmt = $db->prepare("SELECT count(*) FROM product_table WHERE p_id = $p_id");
-     return $stmt->fetch();
+     $stmt->execute([]);
+     return $stmt->fetch()[0];
 }
 ?>
