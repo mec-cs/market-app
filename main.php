@@ -237,6 +237,9 @@
         echo "</tr>";
 
         foreach($products as $p){
+            if($role["role"] == "C" && strtotime($p["p_expire"]) < time()) {
+                continue;
+            }
             echo "<tr>";
                 echo "<td>";
                     echo "<img src='./assets/product/{$p['p_image']}' alt='' width='70'>";
