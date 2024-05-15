@@ -100,17 +100,40 @@
         }
     }
 
-
-
-
     //var_dump($markets);
     //var_dump($size);
     //var_dump($products);
+
+    if(isset($_POST['p_id_delete'])){
+        if(isset($_SESSION['p_ids'][$_POST['p_id_delete']])) {
+            unset($_SESSION['p_ids'][$_POST['p_id_delete']]); 
+            if(empty($_SESSION['p_ids'])) {
+                unset($_SESSION['p_ids']);
+                echo "Array 'p_ids' is empty. Removed from session.<br>";
+            }
+        }
+    }
 
     if(isset($_POST['amount'])){
         extract($_POST);
         //echo "AMOUNT: $amount";
         //echo "PRODUCT ID: $p_id";
+        // Check if the 'p_ids' key exists in the session
+        if(!isset($_SESSION['p_ids'])) {
+            // If not, initialize it as an empty array
+            $_SESSION['p_ids'] = array();
+        }
+        
+        // Add or update a product ID in the associative array
+        $new_product_id = $p_id; // Replace 123 with the actual product ID
+        $product_amount = $amount; // Replace "Product ABC" with the actual product name
+        $_SESSION['p_ids'][$new_product_id] = $product_amount;
+
+        // Display all product IDs and their associated names
+        echo "All product IDs and their associated amounts: <br>";
+        foreach($_SESSION['p_ids'] as $product_id => $product_amount) {
+            echo "Product ID: " . $product_id . ", Product Amount: " . $product_amount . "<br>";
+        }
     }
 ?>
 <div class="nav-links">
@@ -195,18 +218,41 @@
 
                 echo "<td>";
                  //if customer
+                 $value = '';
+                $text = 'Add chart';
+                if(isset($_SESSION['p_ids'])){
+
+                    foreach($_SESSION['p_ids'] as $product_id => $product_amount) {
+                        $value = '';
+                        $text = 'Add chart';
+                        if($product_id == $p['p_id']){
+                            $value = $product_amount;
+                            $text = 'Update chart';
+                            break;
+                        }
+                    }
+                    
+                }
+
                  echo "
                  <form id='form' method='post'>
         <label for='amount'>Amount: </label>
         &nbsp;
-        <input type='number' name='amount' id='amount' min='1' max='{$p['p_stock']}' step='1' required>
+        <input type='number' name='amount' id='amount' min='1' max='{$p['p_stock']}' step='1' value='{$value}' required>
         <input type='hidden' name='p_id' value='{$p['p_id']}'>
         <span id='error-message' style='color: red; display: none;'>Not enough stock </span>
         &nbsp;
-        <button type='submit'>Add chart</button>
+        <button type='submit'>$text</button>
     </form>
                  ";
-                
+                if($text == 'Update chart'){
+                    echo "
+                    <form method='post'>
+                    <input type='hidden' name='p_id_delete' value='{$p['p_id']}'>
+                    <button type='submit'>Delete</button>
+                </form>
+                    ";
+                }
 
                 echo "</td>";
 
