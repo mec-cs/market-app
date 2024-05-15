@@ -2,7 +2,7 @@
 
 const DSN = "mysql:host=localhost;dbname=market-php-db;charset=utf8mb4";
 const USER = "root";
-const PASSWD = "Ayhan1989";
+const PASSWD = "";
 
 try {
      $db = new PDO(DSN, USER, PASSWD); 
@@ -264,7 +264,34 @@ function getCustomer($mail) {
      $stmt = $db->prepare("select * from user_table where email=?");
      $stmt->execute([$mail]);
      return $stmt->fetch();
- }
+}
 
+function updateProfile($type, $name, $email, $password, $city, $district, $address, $oldMail) {
+     global $db;
+     $passwd = password_hash($password, PASSWORD_DEFAULT);
+
+     try {
+          $stmt = $db->prepare("update auth_table set email = ?, password = ? where email = ?");
+          $stmt->execute([$email, $passwd, $oldMail]);
+          
+          $stmt = $db->prepare("update user_table set email = ?, name = ? where email = ?");
+          $stmt->execute([$email, $name, $oldMail]);
+          
+          $stmt = $db->prepare("update role_table set email = ? where email = ?");
+          $stmt->execute([$email, $oldEmail]);
+          
+          $stmt = $db->prepare("update address_table set email = ?, city = ?, district = ?, addr = ? where email = ?");
+          $stmt->execute([$email, $city, $district, $address, $oldEmail]);
+          
+          if ($type == "M") {
+               $stmt = $db->prepare("update company_table set c_name = ? where c_address_table = (SELECT id FROM address_table WHERE email = ?)");
+               $stmt->execute([$name, $email]);
+          }
+
+          return true;
+     } catch(PDOException $e) {
+          return false;
+     }
+}
 
 ?>
