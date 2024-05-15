@@ -1,8 +1,7 @@
 <?php
-
 const DSN = "mysql:host=localhost;dbname=market-php-db;charset=utf8mb4";
 const USER = "root";
-const PASSWD = "Ayhan1989";
+const PASSWD = "";
 
 try {
      $db = new PDO(DSN, USER, PASSWD); 
