@@ -22,18 +22,18 @@
         global $end;
 
         $totalPages = ceil($size/PAGESIZE);
-        $start = ($page - 1) * PAGESIZE;
-        $end = $start + PAGESIZE;
    }
+
 
     $user = $_SESSION["user"];
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
     $page = $_GET["page"] ?? 1;
-
-    if($role['role'] == "C"){
-        header("Location: consumer.php");
+    if(isset($_GET["add"])){
+        $page = $_GET["add"];
     }
+    $start = ($page - 1) * PAGESIZE;
+    $end = $start + PAGESIZE;
 
     if($role['role'] == "M"){
         $size = getNumberOfProducts(getMarket($address['id'])["c_id"]);
@@ -64,26 +64,45 @@
             }
             else{
                 $market = getMarket($address['id']);
-                $size = $market['number_of_products']; 
+                $size = $market['number_of_products'];
                 setPagings($size);
-
                 $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
             }
-            
         }
-         
-        //var_dump($products);
-        
     }
-    else {
+    else { //if customer
         extract($address);
-        $products = getAllProductsByPageNumber(0, 5, $city, $district);
+        if(isset($_POST['query'])){
+            $query = $_POST['query'];
+            $_SESSION['last_query'] = $query;
+            $products = getNumberOfAllProductsQuery($city, $district, $query);
+            $size = count($products); 
+            setPagings($size);
+            $products = getAllProductsByPageNumberQuery($start, $end, $city, $district, $query);
+        }
+        else{
+            if(isset($_SESSION['last_query'])){
+                if($_SESSION['last_query'] == ""){
+                    unset($_SESSION['last_query']);
+                    $products = getNumberOfAllProducts($city, $district);
+                }
+                if(isset($_SESSION['last_query']))
+                    $products = getNumberOfAllProductsQuery($city, $district, $_SESSION['last_query']);
 
-        $size = count($products); 
-        $totalPages = ceil($size/PAGESIZE) ;
+                $size = count($products); 
+                setPagings($size);
+                $products = getAllProductsByPageNumberQuery($start, $end, $city, $district, $_SESSION['last_query']);
+            }
+            else {
+                $products = getNumberOfAllProducts($city, $district);
+                $size = count($products);
+                setPagings($size);
+                $products = getAllProductsByPageNumber($start, $end, $city, $district);
+            }
+        }
     }
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($query)){
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($query) && $role['role'] == "M"){
         if(isset($_POST["form"]) && $_POST["form"] == 'add') { //add
             foreach($_FILES as $fb => $file) {
                 if ( $file["size"] == 0) {
@@ -100,15 +119,19 @@
                     move_uploaded_file($file["tmp_name"], "./assets/product/" . $file["name"]);
                     addProduct($p_name, $p_stock, $p_expire, $market["c_id"], $file["name"], $p_price, $p_altprice);
                 }
+                $a = $totalPages;
                 $size = getNumberOfProducts($market["c_id"]);
                 setPagings($size);
+                $page = $totalPages;
+                $start = ($page - 1) * PAGESIZE;
+                $end = $start + PAGESIZE;
                 $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
              } 
         } elseif (isset($_POST["discount"])) { //change discounted attribute
             changeProductDiscount(abs($_POST["discount"]));
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
         } 
-        else { //edit
+        elseif ($role['role'] == "M"){ //edit
             updateProduct($_POST);
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
         }
@@ -119,6 +142,37 @@
             $size = getNumberOfProducts($market["c_id"]);
             setPagings($size);
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
+        }
+    }
+    if(isset($_POST['p_id_delete'])){
+        if(isset($_SESSION['p_ids'][$_POST['p_id_delete']])) {
+            unset($_SESSION['p_ids'][$_POST['p_id_delete']]); 
+            if(empty($_SESSION['p_ids'])) {
+                unset($_SESSION['p_ids']);
+                echo "Array 'p_ids' is empty. Removed from session.<br>";
+            }
+        }
+    }
+
+    if(isset($_POST['amount'])){
+        extract($_POST);
+        //echo "AMOUNT: $amount";
+        //echo "PRODUCT ID: $p_id";
+        // Check if the 'p_ids' key exists in the session
+        if(!isset($_SESSION['p_ids'])) {
+            // If not, initialize it as an empty array
+            $_SESSION['p_ids'] = array();
+        }
+        
+        // Add or update a product ID in the associative array
+        $new_product_id = $p_id; // Replace 123 with the actual product ID
+        $product_amount = $amount; // Replace "Product ABC" with the actual product name
+        $_SESSION['p_ids'][$new_product_id] = $product_amount;
+
+        // Display all product IDs and their associated names
+        echo "All product IDs and their associated amounts: <br>";
+        foreach($_SESSION['p_ids'] as $product_id => $product_amount) {
+            echo "Product ID: " . $product_id . ", Product Amount: " . $product_amount . "<br>";
         }
     }
 ?>
@@ -137,12 +191,13 @@
         <a href="./logout.php">Logout</a>
     </div>
     <?php
+        if($role['role'] == "M") {
+            echo "<h1>";
+            echo "Welcome ". $market['c_name'];
+            echo "<h1>";
+            echo "<h1>Your Products</h1>";
+        } 
 
-echo "<h1>";
-        echo "Welcome ". $market['c_name'];
-        echo "<h1>";
-
-        echo "<h1>Your Products</h1>";
 ?>
     <form method="post">
     <input type="text" name="query" value="<?= isset($_SESSION['last_query']) ? $_SESSION['last_query'] : ''; ?>" placeholder="Search a product">
@@ -273,7 +328,7 @@ echo "<h1>";
                 echo "<td>";
                 if($role['role'] == "M"){
                 echo "
-                <a href='?delete=$p[p_id]'>
+                <a href='?delete=$p[p_id]&page=$page'>
                     <img src='./assets/system/delete.png' alt='Delete' width='30'>
                 </a><br>";
                 if(isset($_GET["edit"]) && $p["p_id"] == $_GET["edit"]) {
@@ -290,10 +345,41 @@ echo "<h1>";
                 }
 
                 } else { //if customer
+                    $value = '';
+                    $text = 'Add chart';
+                    if(isset($_SESSION['p_ids'])){
+    
+                        foreach($_SESSION['p_ids'] as $product_id => $product_amount) {
+                            $value = '';
+                            $text = 'Add chart';
+                            if($product_id == $p['p_id']){
+                                $value = $product_amount;
+                                $text = 'Update chart';
+                                break;
+                            }
+                        }
+                        
+                    }
+
                     echo "
-                    <a href=''>
-                        <img src='./assets/system/add.png' alt='Add' width='30'>
-                    </a>";
+                    <form id='form' method='post'>
+           <label for='amount'>Amount: </label>
+           &nbsp;
+           <input type='number' name='amount' id='amount' min='1' max='{$p['p_stock']}' step='1' value='{$value}' required>
+           <input type='hidden' name='p_id' value='{$p['p_id']}'>
+           <span id='error-message' style='color: red; display: none;'>Not enough stock </span>
+           &nbsp;
+           <button type='submit'>$text</button>
+       </form>
+                    ";
+                   if($text == 'Update chart'){
+                       echo "
+                       <form method='post'>
+                       <input type='hidden' name='p_id_delete' value='{$p['p_id']}'>
+                       <button type='submit'>Delete</button>
+                   </form>
+                       ";
+                   }
                 }
                 echo "</td>";
 
@@ -325,7 +411,7 @@ echo "<h1>";
             </form>
     <?php elseif($role['role'] === "M"):  ?>
         <tr><td></td><td></td><td></td><td></td><td></td><td></td>
-        <td><a href="?add"><img src="./assets/system/add.png" alt="Add" width="30"></a></td>
+        <td><a href="?add=<?=$totalPages?>"><img src="./assets/system/add.png" alt="Add" width="30"></a></td>
     <?php endif;  ?>
     </table>
     
@@ -373,6 +459,20 @@ echo "<h1>";
         }
 
     </script>
+        <script>
+        console.log("Script is running");
+    document.getElementById('form').addEventListener('submit', function(event) {
+        const amountInput = document.getElementById('amount');
+        const errorMessage = document.getElementById('error-message');
+        const value = parseFloat(amountInput.value);
+
+        // Log the value entered by the user
+        console.log("Entered value:", value);
+
+        // Prevent form submission for now
+        //event.preventDefault();
+    });
+</script>
 </body>
 </html>
 <style>
