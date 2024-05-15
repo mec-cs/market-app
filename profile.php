@@ -28,6 +28,7 @@
 
     $user_addresses = getAddress($user['email']);
     
+    $role = getUserRole($user["email"]);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         extract($_POST);
@@ -42,7 +43,7 @@
 
         // Troubleshoot the values if errors occur
             // var_dump($user_addresses);
-            var_dump($v_name, $v_email, $v_password, $v_city, $v_district, $v_address, $user["email"]);
+            // var_dump($v_name, $v_email, $v_password, $v_city, $v_district, $v_address, $user["email"]);
         //
          
         // update the profile of user whether s/he is a market or customer
