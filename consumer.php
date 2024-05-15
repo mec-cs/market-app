@@ -272,9 +272,6 @@
         a img {
             vertical-align: middle;
         }
-        body {
-            /*font-family: Arial, sans-serif;*/
-        }
         form {
             margin: 20px 0;
             display: flex;
