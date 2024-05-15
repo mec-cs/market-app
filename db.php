@@ -258,4 +258,13 @@ function isProductExist($p_id) {
      $stmt->execute([]);
      return $stmt->fetch()[0];
 }
+
+function getCustomer($mail) {
+     global $db;
+     $stmt = $db->prepare("select * from user_table where email=?");
+     $stmt->execute([$mail]);
+     return $stmt->fetch();
+ }
+
+
 ?>

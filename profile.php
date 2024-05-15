@@ -8,13 +8,6 @@
     header("X-XSS-Protection: 1; mode=block");
 
     require "db.php" ;
-    
-    function getCustomer($mail) {
-        global $db;
-        $stmt = $db->prepare("select * from user_table where email=?");
-        $stmt->execute([$mail]);
-        return $stmt->fetch();
-    }
 
     // check if the user authenticated before
     if( !isUserAuthenticated()) {
@@ -22,22 +15,31 @@
         exit ; 
     }
 
-    $user = $_SESSION["user"];
-    $usr = getUserRole($user['email']);
-    $role = $usr["role"];
-
-    if($role == "C"){
-        $customer = getCustomer($user["email"]);
-        //var_dump($customer);
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        $user = $_SESSION["user"];
+        $u_data = getUserRole($user['email']);
+        $role = $u_data["role"];
+    
+        if($role == "C"){
+            $profile = getCustomer($user["email"]);
+            //var_dump($customer);
+        }
+    
+        if($role == "M"){
+            $profile = getMarket($user['email']);
+            //var_dump($marketUser['c_name']);
+        }
+    
+        $address = getAddress($profile['email']);
     }
-    if($role == "M"){
-        $marketUser = getMarket($user['email']);
-        //var_dump($marketUser['c_name']);
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        extract($_POST);
+
+        // validated inputs will be comin
+
+        
     }
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -57,22 +59,30 @@
             <div class="col-md-20">
                 <div class="card">
                     <div class="card-header">
-                        <h1>Profile Page</h1>
+                        <h1>Profile <?= isset($profile["name"]) ? " : " . $profile["name"] : "" ?></h1>
                     </div>
                     <div class="card-body">
                         <form action="?" method="post">
 
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" required>
+                                <input type="email" name="email" id="email" class="form-control" value="<?php echo isset($profile['email']) ? $profile['email'] : ''; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" id="name" class="form-control" placeholder="Enter your name" required>
+                                <input type="text" name="name" id="name" class="form-control" value="<?php echo isset($profile['name']) ? $profile['name'] : ''; ?>" required>
                             </div>
                             <div class="form-group">
-                                <label for="address">Adress</label>
-                                <input type="text" name="address" id="address" class="form-control" placeholder="Enter your address" required>
+                                <label for="address">City</label>
+                                <input type="text" name="city" id="address" class="form-control" value="<?php echo isset($address['city']) ? $address['city'] : ''; ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">District</label>
+                                <input type="text" name="district" id="address" class="form-control" value="<?php echo isset($address['district']) ? $address['district'] : ''; ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" name="address" id="address" class="form-control" value="<?php echo isset($address['addr']) ? $address['addr'] : ''; ?>" required>
                             </div>
                             <button class="btnSpecial" role="button">Save</button>
                         </form>
@@ -85,62 +95,6 @@
         </div>
     </div>
 </div>
-    
-
-    <?php
-    
-        echo "<table>";
-            echo "<tr>";
-                echo "<td>";
-                if($market["c_image"] != NULL){
-                    echo "<img src='./assets/company/{$market[c_image]}'>";
-                }
-                else{
-                    echo "<img src='./assets/company/{default.png}'>";
-                }
-                echo "</td>";
-            echo "</tr>";
-
-            echo "<tr>";
-                echo "<td>";
-                    echo "NAME";
-                    echo "<br>";
-                    //echo "$market['c_name']";
-                echo "</td>";
-            echo "</tr>";
-
-            echo "<tr>";
-                echo "<td>";
-                    echo "ADDRESS";
-                    echo "<br>";
-                    //echo "$market['c_address_table']";
-                echo "</td>";
-            echo "</tr>";
-        echo "</table>";
-
-
-        if(isset($_GET["edit"])){
-            
-            echo "<tr>";
-                echo "<th>";
-                    echo "IMAGE";
-                echo "</th>";
-            echo "</tr>";
-
-            echo "<tr>";
-                echo "<th>";
-                    echo "NAME";
-                echo "</th>";
-            echo "</tr>";
-
-            echo "<tr>";
-                echo "<th>";
-                    echo "ADDRESS";
-                echo "</th>";
-            echo "</tr>";
-        }
-    ?>
-
 
 </body>
 </html>
