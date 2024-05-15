@@ -85,12 +85,14 @@
             if(isset($_SESSION['last_query'])){
                 if($_SESSION['last_query'] == ""){
                     unset($_SESSION['last_query']);
+                    $products = getNumberOfAllProducts($city, $district);
                 }
                 if(isset($_SESSION['last_query']))
-                    $products = getMarketProductsByQuery($market['c_id'], $_SESSION['last_query']);
+                    $products = getNumberOfAllProductsQuery($city, $district, $_SESSION['last_query']);
 
                 $size = count($products); 
                 setPagings($size);
+                $products = getAllProductsByPageNumberQuery($start, $end, $city, $district, $_SESSION['last_query']);
             }
             else {
                 $products = getNumberOfAllProducts($city, $district);
@@ -99,7 +101,6 @@
                 $products = getAllProductsByPageNumber($start, $end, $city, $district);
             }
         }
-
     }
 
     if($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($query) && $role['role'] == "M"){
@@ -237,9 +238,6 @@
         echo "</tr>";
 
         foreach($products as $p){
-            if($role["role"] == "C" && strtotime($p["p_expire"]) < time()) {
-                continue;
-            }
             echo "<tr>";
                 echo "<td>";
                     echo "<img src='./assets/product/{$p['p_image']}' alt='' width='70'>";
