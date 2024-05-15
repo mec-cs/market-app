@@ -82,11 +82,11 @@
                         <form id="profileForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" id="name" class="form-control" value="<?php echo isset($user['name']) ? $profile['name'] : ''; ?>" required>
+                                <input type="text" name="name" id="name" class="form-control" value="<?php echo isset($user['name']) ? $user['name'] : ''; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" value="<?php echo isset($user['email']) ? $profile['email'] : ''; ?>" required>
+                                <input type="email" name="email" id="email" class="form-control" value="<?php echo isset($user['email']) ? $user['email'] : ''; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
