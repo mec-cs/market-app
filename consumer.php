@@ -112,9 +112,9 @@
         //echo "AMOUNT: $amount";
         //echo "PRODUCT ID: $p_id";
     }
-
 ?>
 <div class="nav-links">
+        <a href="./chart.php">View Chart</a>
         <a href="./profile.php">Profile</a>
         <a href="./logout.php">Logout</a>
     </div>
