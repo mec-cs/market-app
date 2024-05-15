@@ -8,6 +8,7 @@
 </head>
 <body>
 
+
 <?php 
     session_start() ;
 
@@ -33,7 +34,8 @@
 
         $totalPages = ceil($size/PAGESIZE);
         $start = ($page - 1) * PAGESIZE ; 
-        $end = $start + PAGESIZE ;
+        $end = $start + PAGESIZE ; 
+        $end = $end > $size ? $size : $end ; 
    }
 
     $user = $_SESSION["user"];
@@ -41,17 +43,12 @@
     $role = getUserRole($user['email']);
     $page = $_GET["page"] ?? 1;
 
-    extract($address);
-    $products = getAllProductsByPageNumber(0, 5, $city, $district);
-    $size = count($products); 
-    setPagings($size);
-
     $address = getConsumerAddress($user['email']);
     //var_dump($address);
-   
+
     $marketList = getMarketListInAddress($address['city'], $address['district']);
     //var_dump($marketList);
-    
+
     $size = 0;
     $products = [];
     $markets = []; // Initialize an array to store market details
@@ -72,7 +69,7 @@
                 $query = $_POST['query'];
                 $_SESSION['last_query'] = $query;
                 $products[] = getMarketProductsByQuery(getMarket($address['id'])["c_id"], $query);
-    
+
                 $size = count($products); 
                 setPagings($size);
             }
@@ -85,8 +82,8 @@
                         $products[] = getMarketProductsByQuery(getMarket($address['id'])["c_id"], $_SESSION['last_query']);
                     else
                         $products[] = getMarketProductsByQuery(getMarket($address['id'])["c_id"], "");
-    
-    
+
+
                     $size = count($products); 
                     setPagings($size);
                 }
@@ -94,23 +91,30 @@
                     $market = getMarket($address['id']);
                     $size = $market['number_of_products']; 
                     setPagings($size);
-                    extract($address);
-                    $products = getAllProductsByPageNumber(0, 5, $city, $district);
+
+                    $products[] = getMarketProductsByPageNumber($start, $end, getMarket($address['id'])["c_id"]);
                 }
-                
+
             }
-            
+
         }
     }
+
+
+
+
     //var_dump($markets);
     //var_dump($size);
-    //var_dump($products); 
+    //var_dump($products);
+
+
+
 ?>
 <form method="post">
     <input type="text" name="query" value="<?= isset($_SESSION['last_query']) ? $_SESSION['last_query'] : ''; ?>" placeholder="Search a product">
     </form>
 <table>
-    
+
     <?php 
 
         echo "<tr>";
@@ -148,11 +152,11 @@
                 // Get the current Unix timestamp
                 $current_timestamp = time();
                 if ($p_expire_timestamp <= $current_timestamp) {
-                    
+
                 } else {
                     // Otherwise, default text color
                     //echo "<span>{$p['p_expire']}</span>";
-                
+
 
             echo "<tr>";
                 echo "<td>";
@@ -160,15 +164,15 @@
                 echo "</td>";
 
                 echo "<td>";
-                
+
                     echo $p['p_name'];
-                
+
                 echo "</td>";
 
                 echo "<td>";
-                
+
                     echo $p['p_stock'];
-                
+
                 echo "</td>";
 
                 echo "<td>";
@@ -176,13 +180,9 @@
                 echo "</td>";
 
                 echo "<td>";
-                
-                if($p["p_discounted"]) {
-                    echo $p["p_altprice"];
-                } else {
+
                     echo $p['p_price'];
-                }
-                
+
                 echo "</td>";
 
                 echo "<td>";
@@ -191,7 +191,7 @@
                     <a href=''>
                         <img src='./assets/system/add.png' alt='Add' width='30'>
                     </a>";
-                
+
                 echo "</td>";
 
             echo "</tr>";
@@ -199,8 +199,8 @@
         }
     }
 ?>
-    
-            
+
+
     </table>
 
     <a href="./profile.php">profile</a>
