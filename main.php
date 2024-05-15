@@ -22,18 +22,15 @@
         global $end;
 
         $totalPages = ceil($size/PAGESIZE);
-        $start = ($page - 1) * PAGESIZE;
-        $end = $start + PAGESIZE;
    }
+
 
     $user = $_SESSION["user"];
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
     $page = $_GET["page"] ?? 1;
-
-    if($role['role'] == "C"){
-        //header("Location: consumer.php");
-    }
+    $start = ($page - 1) * PAGESIZE;
+    $end = $start + PAGESIZE;
 
     if($role['role'] == "M"){
         $size = getNumberOfProducts(getMarket($address['id'])["c_id"]);
@@ -64,9 +61,8 @@
             }
             else{
                 $market = getMarket($address['id']);
-                $size = $market['number_of_products']; 
+                $size = $market['number_of_products'];
                 setPagings($size);
-
                 $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
             }
         }
@@ -120,6 +116,7 @@
                     move_uploaded_file($file["tmp_name"], "./assets/product/" . $file["name"]);
                     addProduct($p_name, $p_stock, $p_expire, $market["c_id"], $file["name"], $p_price, $p_altprice);
                 }
+                $a = $totalPages;
                 $size = getNumberOfProducts($market["c_id"]);
                 setPagings($size);
                 $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);

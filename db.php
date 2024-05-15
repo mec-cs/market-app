@@ -108,7 +108,8 @@ function getUserRole($email){
 
 function getMarketProductsByPageNumber($start, $end, $id){
      global $db;
-     $stmt = $db->prepare("SELECT  * FROM product_table WHERE c_id=? LIMIT $start, $end;");
+     $offset = $end - $start;
+     $stmt = $db->prepare("(SELECT * FROM product_table WHERE c_id=?) LIMIT $start,$offset;");
      $stmt->execute([$id]);
 
      return $stmt->fetchAll();
@@ -133,11 +134,12 @@ function getNumberOfProducts($c_id){
 
 function getAllProductsByPageNumberQuery($start, $end, $city, $district, $query){
      global $db;
+     $offset = $end - $start;
      $stmt = $db->prepare("SELECT p_id, p_name, p_stock, p_expire, c_id, p_image, p_price, p_altprice, p_discounted FROM
      (SELECT p_id, p_name, p_stock, p_expire, c_id, p_image, p_price, p_altprice, p_discounted, MIN(UnionSet) UnionSetOrder FROM
      (SELECT p_id, p_name, p_stock, p_expire, c.c_id, p_image, p_price, p_altprice, p_discounted, 1 as UnionSet FROM product_table p JOIN company_table c ON c.c_id = p.c_id JOIN address_table a ON c.c_address_table = a.id WHERE a.district = ? AND a.city = ? AND p.p_name LIKE ? UNION DISTINCT
      SELECT p_id, p_name, p_stock, p_expire, e.c_id, p_image, p_price, p_altprice, p_discounted, 2 as UnionSet FROM product_table e JOIN company_table b ON b.c_id = e.c_id JOIN address_table a ON b.c_address_table = a.id WHERE a.city = ? AND e.p_name LIKE ?) x 
-     GROUP BY p_id, p_name, p_stock, p_expire, c_id, p_image, p_price, p_altprice, p_discounted) y WHERE UNIX_TIMESTAMP(p_expire) >= ? ORDER BY UnionSetOrder LIMIT $start, $end;");
+     GROUP BY p_id, p_name, p_stock, p_expire, c_id, p_image, p_price, p_altprice, p_discounted) y WHERE UNIX_TIMESTAMP(p_expire) >= ? ORDER BY UnionSetOrder LIMIT $start, $offset;");
      $query = "%$query%";
      $stmt->execute([$district, $city, $query, $city, $query, time()]);
      
@@ -159,11 +161,12 @@ function getNumberOfAllProductsQuery($city, $district, $query) {
 
 function getAllProductsByPageNumber($start, $end, $city, $district){
      global $db;
+     $offset = $end - $start;
      $stmt = $db->prepare("SELECT p_id, p_name, p_stock, p_expire, c_id, p_image, p_price, p_altprice, p_discounted FROM
      (SELECT p_id, p_name, p_stock, p_expire, c_id, p_image, p_price, p_altprice, p_discounted, MIN(UnionSet) UnionSetOrder FROM
      (SELECT p_id, p_name, p_stock, p_expire, c.c_id, p_image, p_price, p_altprice, p_discounted, 1 as UnionSet FROM product_table p JOIN company_table c ON c.c_id = p.c_id JOIN address_table a ON c.c_address_table = a.id WHERE a.district = ? AND a.city = ? UNION DISTINCT
      SELECT p_id, p_name, p_stock, p_expire, e.c_id, p_image, p_price, p_altprice, p_discounted, 2 as UnionSet FROM product_table e JOIN company_table b ON b.c_id = e.c_id JOIN address_table a ON b.c_address_table = a.id WHERE a.city = ?) x 
-     GROUP BY p_id, p_name, p_stock, p_expire, c_id, p_image, p_price, p_altprice, p_discounted) y WHERE UNIX_TIMESTAMP(p_expire) >= ? ORDER BY UnionSetOrder LIMIT $start, $end;");
+     GROUP BY p_id, p_name, p_stock, p_expire, c_id, p_image, p_price, p_altprice, p_discounted) y WHERE UNIX_TIMESTAMP(p_expire) >= ? ORDER BY UnionSetOrder LIMIT $start, $offset;");
      $stmt->execute([$district, $city, $city, time()]);
      
      return $stmt->fetchAll();
