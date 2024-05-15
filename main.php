@@ -29,6 +29,9 @@
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
     $page = $_GET["page"] ?? 1;
+    if(isset($_GET["add"])){
+        $page = $_GET["add"];
+    }
     $start = ($page - 1) * PAGESIZE;
     $end = $start + PAGESIZE;
 
@@ -119,6 +122,9 @@
                 $a = $totalPages;
                 $size = getNumberOfProducts($market["c_id"]);
                 setPagings($size);
+                $page = $totalPages;
+                $start = ($page - 1) * PAGESIZE;
+                $end = $start + PAGESIZE;
                 $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
              } 
         } elseif (isset($_POST["discount"])) { //change discounted attribute
@@ -322,7 +328,7 @@
                 echo "<td>";
                 if($role['role'] == "M"){
                 echo "
-                <a href='?delete=$p[p_id]'>
+                <a href='?delete=$p[p_id]&page=$page'>
                     <img src='./assets/system/delete.png' alt='Delete' width='30'>
                 </a><br>";
                 if(isset($_GET["edit"]) && $p["p_id"] == $_GET["edit"]) {
@@ -405,7 +411,7 @@
             </form>
     <?php elseif($role['role'] === "M"):  ?>
         <tr><td></td><td></td><td></td><td></td><td></td><td></td>
-        <td><a href="?add"><img src="./assets/system/add.png" alt="Add" width="30"></a></td>
+        <td><a href="?add=<?=$totalPages?>"><img src="./assets/system/add.png" alt="Add" width="30"></a></td>
     <?php endif;  ?>
     </table>
     
