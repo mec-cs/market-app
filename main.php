@@ -73,11 +73,7 @@
         }
          
         //var_dump($products);
-        echo "<h1>";
-        echo "Welcome ". $market['c_name'];
-        echo "<h1>";
-
-        echo "<h1>Your Products</h1>";
+        
     }
     else {
         extract($address);
@@ -136,7 +132,18 @@
     <title>Market App Main Page</title>
 </head>
 <body>
+<div class="nav-links">
+        <a href="./profile.php">Profile</a>
+        <a href="./logout.php">Logout</a>
+    </div>
+    <?php
 
+echo "<h1>";
+        echo "Welcome ". $market['c_name'];
+        echo "<h1>";
+
+        echo "<h1>Your Products</h1>";
+?>
     <form method="post">
     <input type="text" name="query" value="<?= isset($_SESSION['last_query']) ? $_SESSION['last_query'] : ''; ?>" placeholder="Search a product">
     </form>
@@ -268,7 +275,7 @@
                 echo "
                 <a href='?delete=$p[p_id]'>
                     <img src='./assets/system/delete.png' alt='Delete' width='30'>
-                </a>";
+                </a><br>";
                 if(isset($_GET["edit"]) && $p["p_id"] == $_GET["edit"]) {
                     echo "
                     <button style='border:0px solid black; background-color: transparent' name='p_id' value='$p[p_id]'action='?'><img src='./assets/system/save.png' alt='Save' width='30'></button>
@@ -321,16 +328,18 @@
         <td><a href="?add"><img src="./assets/system/add.png" alt="Add" width="30"></a></td>
     <?php endif;  ?>
     </table>
-    <a href="./profile.php">profile</a>
-    <a href="./logout.php">logout</a>
+    
 
-    <br><br><br><br>
+    
 
-    <?php
-         for ( $i=1; $i<= $totalPages; $i++) {
-                echo "<a href='?page=$i'>$i</a> " ;
-         }
-    ?>
+    <div class="pagination">
+        <?php
+            for ($i = 1; $i <= $totalPages; $i++) {
+                $active = isset($_GET['page']) && $_GET['page'] == $i ? 'active' : '';
+                echo "<a href='?page=$i' class='$active'>$i</a>";
+            }
+        ?>
+    </div>
     <script>var input = document.querySelectorAll('input');for(i=0; i<input.length; i++){input[i].setAttribute('size',input[i].getAttribute('value').length);}   </script>
     <script>
        function readURL(input) {  
@@ -369,5 +378,97 @@
 <style>
         span {
             color: red;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+        a img {
+            vertical-align: middle;
+        }
+        form {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="text"]::placeholder {
+            color: #aaa;
+        }
+        input[type="text"]:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .pagination a {
+            color: #007BFF;
+            padding: 10px 15px;
+            margin: 0 5px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+            font-size: 18px;
+        }
+        .pagination a:hover {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        .pagination a.active {
+            background-color: #007BFF;
+            color: #fff;
+            border-color: #007BFF;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: flex-end;
+            margin: 20px;
+        }
+        .nav-links a {
+            color: #007BFF;
+            padding: 10px 15px;
+            margin: 0 5px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 18px; /* Increased font size */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .nav-links a:hover {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px 0; /* Optional: adds some margin for spacing */
         }
 </style>
