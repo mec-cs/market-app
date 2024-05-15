@@ -69,21 +69,40 @@
 
                 $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
             }
-            
         }
-         
-        //var_dump($products);
-        
     }
-    else {
+    else { //if customer
         extract($address);
-        $products = getAllProductsByPageNumber(0, 5, $city, $district);
+        if(isset($_POST['query'])){
+            $query = $_POST['query'];
+            $_SESSION['last_query'] = $query;
+            $products = getNumberOfAllProductsQuery($city, $district, $query);
+            $size = count($products); 
+            setPagings($size);
+            $products = getAllProductsByPageNumberQuery($start, $end, $city, $district, $query);
+        }
+        else{
+            if(isset($_SESSION['last_query'])){
+                if($_SESSION['last_query'] == ""){
+                    unset($_SESSION['last_query']);
+                }
+                if(isset($_SESSION['last_query']))
+                    $products = getMarketProductsByQuery($market['c_id'], $_SESSION['last_query']);
 
-        $size = count($products); 
-        $totalPages = ceil($size/PAGESIZE) ;
+                $size = count($products); 
+                setPagings($size);
+            }
+            else {
+                $products = getNumberOfAllProducts($city, $district);
+                $size = count($products);
+                setPagings($size);
+                $products = getAllProductsByPageNumber($start, $end, $city, $district);
+            }
+        }
+
     }
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($query)){
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($query) && $role['role'] == "M"){
         if(isset($_POST["form"]) && $_POST["form"] == 'add') { //add
             foreach($_FILES as $fb => $file) {
                 if ( $file["size"] == 0) {
