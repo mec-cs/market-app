@@ -63,7 +63,6 @@
         $role = getUserRole($user["email"])["role"];
         $user["name"] = getName($user["email"]);
     }
-    var_dump($user);
 ?>
 
 <!DOCTYPE html>

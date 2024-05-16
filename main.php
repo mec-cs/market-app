@@ -284,7 +284,7 @@
                         echo $p["p_expire"];
                     } else {
                         // Otherwise, default text color
-                        echo "<span>{$p['p_expire']}</span>";
+                        echo "<span>{$p['p_expire']} <img width='100'src='./assets/system/warning.png' alt=''></span>";
                     }
                 }
                 echo "</td>";
