@@ -77,7 +77,7 @@ CREATE TABLE `user_table` (
   `email` varchar(100) COLLATE utf8mb4_turkish_ci NOT NULL,
   `name` varchar(100) COLLATE utf8mb4_turkish_ci NOT NULL,
   PRIMARY KEY (`email`),
-  CONSTRAINT `user_auth_table_fk` FOREIGN KEY (`email`) REFERENCES `auth_table` (`email`) ON DELETE CASCADE
+  CONSTRAINT `user_auth_table_fk` FOREIGN KEY (`email`) REFERENCES `auth_table` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -170,7 +170,7 @@ CREATE TABLE `address_table` (
   `addr` varchar(100) COLLATE utf8mb4_turkish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `address_table_fk` (`email`),
-  CONSTRAINT `address_table_fk` FOREIGN KEY (`email`) REFERENCES `user_table` (`email`) ON DELETE CASCADE
+  CONSTRAINT `address_table_fk` FOREIGN KEY (`email`) REFERENCES `user_table` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

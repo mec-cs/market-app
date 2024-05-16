@@ -124,6 +124,15 @@ function getMarketProductsByQuery($id, $query){
      return $stmt->fetchAll();
 }
 
+function getName($email){
+     global $db;
+     $stmt = $db->prepare("SELECT name FROM user_table WHERE email=?");
+     $stmt->execute([$email]);
+
+     return $stmt->fetch()["name"];
+
+}
+
 function getNumberOfProducts($c_id){
      global $db;
      $stmt = $db->prepare("SELECT COUNT(*) as count FROM product_table WHERE c_id=?");
@@ -312,22 +321,22 @@ function getCustomer($mail) {
      return $stmt->fetch();
 }
 
-function updateProfile($type, $name, $email, $password, $city, $district, $address, $oldMail) {
+function updateProfile($type, $name, $email, $password, $city, $district, $address, $oldEmail, $usrtoken) {
      global $db;
      $passwd = password_hash($password, PASSWORD_DEFAULT);
 
      try {
           $stmt = $db->prepare("update auth_table set email = ?, password = ? where email = ?");
-          $stmt->execute([$email, $passwd, $oldMail]);
+          $stmt->execute([$email, $passwd, $oldEmail]);
           
           $stmt = $db->prepare("update user_table set email = ?, name = ? where email = ?");
-          $stmt->execute([$email, $name, $oldMail]);
+          $stmt->execute([$email, $name, $oldEmail]);
           
           $stmt = $db->prepare("update role_table set email = ? where email = ?");
-          $stmt->execute([$email, $oldMail]);
+          $stmt->execute([$email, $oldEmail]);
           
           $stmt = $db->prepare("update address_table set email = ?, city = ?, district = ?, addr = ? where email = ?");
-          $stmt->execute([$email, $city, $district, $address, $oldMail]);
+          $stmt->execute([$email, $city, $district, $address, $oldEmail]);
           
           if ($type == "M") {
                $stmt = $db->prepare("update company_table set c_name = ? where c_address_table = (SELECT id FROM address_table WHERE email = ?)");
@@ -336,6 +345,7 @@ function updateProfile($type, $name, $email, $password, $city, $district, $addre
 
           return true;
      } catch(PDOException $e) {
+          var_dump($e);
           return false;
      }
 }

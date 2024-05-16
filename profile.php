@@ -23,12 +23,10 @@
         return $data;
     }
 
-
     $user = $_SESSION["user"];
-
-    $user_addresses = getAddress($user['email']);
-    
-    $role = getUserRole($user["email"]);
+    $user_addresses = getAddress($user['email']);    
+    $role = getUserRole($user["email"])["role"];
+    $user["name"] = getName($user["email"]);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         extract($_POST);
@@ -47,16 +45,25 @@
         //
          
         // update the profile of user whether s/he is a market or customer
-        $updated = updateProfile($role, $v_name, $v_email, $v_password, $v_city, $v_district, $v_address, $user["email"]);
+        $updated = updateProfile($role, $v_name, $v_email, $v_password, $v_city, $v_district, $v_address, $user["email"], $user["usrtoken"]);
         
         if ($updated) {
             // also update session
             $_SESSION["user"] = ["name" => $v_name, "email" => $v_email, "password" => $v_password, "usrtoken" => isset($user["usrtoken"]) ? $user["usrtoken"] : ""];
+            $user = $_SESSION["user"];
+            $user_addresses = getAddress($user['email']);    
+            $role = getUserRole($user["email"])["role"];
+            $user["name"] = getName($user["email"]);
         } else {
             $error["update"] = "Your changes cannot be saved to the system, please try again later!";
         }
+
+        $user = $_SESSION["user"];
+        $user_addresses = getAddress($user['email']);    
+        $role = getUserRole($user["email"])["role"];
+        $user["name"] = getName($user["email"]);
     }
-    var_dump($_SESSION["user"]);
+    var_dump($user);
 ?>
 
 <!DOCTYPE html>
