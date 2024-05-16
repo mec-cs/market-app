@@ -56,6 +56,7 @@
             $error["update"] = "Your changes cannot be saved to the system, please try again later!";
         }
     }
+    var_dump($_SESSION["user"]);
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +71,6 @@
     <title>Market App - Profile Page</title>
 </head>
 <body> 
-
 <div class="content">
     <div class="container mt-15">
         <div class="row justify-content-center">

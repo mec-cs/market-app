@@ -324,10 +324,10 @@ function updateProfile($type, $name, $email, $password, $city, $district, $addre
           $stmt->execute([$email, $name, $oldMail]);
           
           $stmt = $db->prepare("update role_table set email = ? where email = ?");
-          $stmt->execute([$email, $oldEmail]);
+          $stmt->execute([$email, $oldMail]);
           
           $stmt = $db->prepare("update address_table set email = ?, city = ?, district = ?, addr = ? where email = ?");
-          $stmt->execute([$email, $city, $district, $address, $oldEmail]);
+          $stmt->execute([$email, $city, $district, $address, $oldMail]);
           
           if ($type == "M") {
                $stmt = $db->prepare("update company_table set c_name = ? where c_address_table = (SELECT id FROM address_table WHERE email = ?)");
