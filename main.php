@@ -186,6 +186,11 @@
     <title>Market App</title>
 </head>
 <body>
+    <div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
     <div class="nav-links">
         <a href="./cart.php" <?= empty($_SESSION["p_ids"]) ? 'style="pointer-events: none; opacity: 0.4;"' : "";?>>View Chart</a>
         <a href="./profile.php">Profile</a>
