@@ -369,20 +369,20 @@
 
                     echo "
                     <form id='form' method='post'>
-           <label for='amount'>Amount: </label>
-           &nbsp;
-           <input type='number' name='amount' id='amount' min='1' max='{$p['p_stock']}' step='1' value='{$value}' required>
-           <input type='hidden' name='p_id' value='{$p['p_id']}'>
-           <span id='error-message' style='color: red; display: none;'>Not enough stock </span>
-           &nbsp;
-           <button type='submit'>$text</button>
-       </form>
+                        <label for='amount'>Amount: </label>
+                        &nbsp;
+                        <input type='number' name='amount' id='amount' min='1' max='{$p['p_stock']}' step='1' value='{$value}' required>
+                        <input type='hidden' name='p_id' value='{$p['p_id']}'>
+                        <span id='error-message' style='color: red; display: none;'>Not enough stock </span>
+                        &nbsp;
+                        <button class='btnClass' type='submit'>$text</button>
+                    </form>
                     ";
                    if($text == 'Update chart'){
                        echo "
-                       <form method='post'>
-                       <input type='hidden' name='p_id_delete' value='{$p['p_id']}'>
-                       <button type='submit'>Delete</button>
+                        <form method='post'>
+                            <input type='hidden' name='p_id_delete' value='{$p['p_id']}'>
+                            <button class='btnClass' type='submit'>Delete</button>
                         </form>
                        ";
                    }

@@ -153,14 +153,14 @@
                     <input type='hidden' name='p_id' value='{$p['p_id']}'>
                     <span id='error-message' style='color: red; display: none;'>Not enough stock </span>
                     &nbsp;
-                    <button type='submit'>$text</button>
+                    <button class='btnClass' type='submit'>$text</button>
                     </form>
                     ";
                     if($text == 'Update chart'){
                         echo "
                         <form method='post'>
                         <input type='hidden' name='p_id_delete' value='{$p['p_id']}'>
-                        <button type='submit'>Delete</button>
+                        <button class='btnClass' type='submit'>Delete</button>
                         </form>
                         ";
                     }
@@ -187,10 +187,10 @@
                 echo "<form method='post'>";
                 echo "<input type='hidden' name='purchase'>";
                 if (empty($products)){
-                    echo "<button disabled>Buy</button>";
+                    echo "<button class='btnClass' disabled>Buy</button>";
                 }
                 else {
-                    echo "<button onclick='alert(`Thank you for your purchase!`)'>Buy</button>";
+                    echo "<button class='btnClass' onclick='alert(`Thank you for your purchase!`)'>Buy</button>";
                 }
                 echo "</form>";
             echo "</td>";
