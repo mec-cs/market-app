@@ -130,6 +130,12 @@
         } elseif (isset($_POST["discount"])) { //change discounted attribute
             changeProductDiscount(abs($_POST["discount"]));
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
+            $size = getNumberOfProducts($market["c_id"]);
+            setPagings($size);
+            $page = $_POST["page"];
+            $start = ($page - 1) * PAGESIZE;
+            $end = $start + PAGESIZE;
+            $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
         } 
         elseif ($role['role'] == "M"){ //edit
             updateProduct($_POST);
@@ -313,7 +319,8 @@
                         echo '<input class="" type="checkbox" id="" name="discount" onclick="this.previousSibling.value=this.value" onchange="this.form.submit()" value="';
                         echo $p["p_id"] . '"';
                         echo $p["p_discounted"] ? "checked" : ""; 
-                        echo '></div></form></td>';
+                        echo '>';
+                        echo '<input type="hidden" name="page" value="' . $page . '"></div></form></td>';
                     }
                 }
                 echo "</td>";

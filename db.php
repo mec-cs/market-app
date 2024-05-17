@@ -237,7 +237,7 @@ function deleteProduct($c_id, $p_id){
      $stmt = $db->prepare("SELECT p_image FROM product_table WHERE p_id=$p_id");
      $stmt->execute([]);
      $imageName = $stmt->fetch()['p_image'];
-     var_dump($_SERVER['DOCUMENT_ROOT']);
+
      if($imageName != "default.png") {
           if(file_exists($_SERVER['DOCUMENT_ROOT']."market-app")) {
                unlink($_SERVER['DOCUMENT_ROOT']."/market-app/assets/product/$imageName");
