@@ -149,7 +149,6 @@
             unset($_SESSION['p_ids'][$_POST['p_id_delete']]); 
             if(empty($_SESSION['p_ids'])) {
                 unset($_SESSION['p_ids']);
-                echo "Array 'p_ids' is empty. Removed from session.<br>";
             }
         }
     }
@@ -168,12 +167,6 @@
         $new_product_id = $p_id; // Replace 123 with the actual product ID
         $product_amount = $amount; // Replace "Product ABC" with the actual product name
         $_SESSION['p_ids'][$new_product_id] = $product_amount;
-
-        // Display all product IDs and their associated names
-        echo "All product IDs and their associated amounts: <br>";
-        foreach($_SESSION['p_ids'] as $product_id => $product_amount) {
-            echo "Product ID: " . $product_id . ", Product Amount: " . $product_amount . "<br>";
-        }
     }
 ?>
 
@@ -183,10 +176,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <title>Market App Main Page</title>
+    <link rel="stylesheet" href="./style/main.css">
+    <title>Market App</title>
 </head>
 <body>
-<div class="nav-links">
+    <div class="nav-links">
+        <a href="./cart.php" <?= empty($_SESSION["p_ids"]) ? 'style="pointer-events: none; opacity: 0.4;"' : "";?>>View Chart</a>
         <a href="./profile.php">Profile</a>
         <a href="./logout.php">Logout</a>
     </div>
@@ -197,8 +192,7 @@
             echo "<h1>";
             echo "<h1>Your Products</h1>";
         } 
-
-?>
+    ?>
     <form method="post">
     <input type="text" name="query" value="<?= isset($_SESSION['last_query']) ? $_SESSION['last_query'] : ''; ?>" placeholder="Search a product">
     </form>
@@ -377,7 +371,7 @@
                        <form method='post'>
                        <input type='hidden' name='p_id_delete' value='{$p['p_id']}'>
                        <button type='submit'>Delete</button>
-                   </form>
+                        </form>
                        ";
                    }
                 }
@@ -414,9 +408,7 @@
         <td><a href="?add=<?=$totalPages?>"><img src="./assets/system/add.png" alt="Add" width="30"></a></td>
     <?php endif;  ?>
     </table>
-    
 
-    
 
     <div class="pagination">
         <?php
@@ -475,100 +467,3 @@
 </script>
 </body>
 </html>
-<style>
-        span {
-            color: red;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 18px;
-            text-align: left;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        img {
-            display: block;
-            margin: 0 auto;
-        }
-        a img {
-            vertical-align: middle;
-        }
-        form {
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-        }
-        input[type="text"] {
-            width: 300px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        input[type="text"]::placeholder {
-            color: #aaa;
-        }
-        input[type="text"]:focus {
-            border-color: #007BFF;
-            outline: none;
-        }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .pagination a {
-            color: #007BFF;
-            padding: 10px 15px;
-            margin: 0 5px;
-            text-decoration: none;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            transition: background-color 0.3s, color 0.3s;
-            font-size: 18px;
-        }
-        .pagination a:hover {
-            background-color: #007BFF;
-            color: #fff;
-        }
-        .pagination a.active {
-            background-color: #007BFF;
-            color: #fff;
-            border-color: #007BFF;
-        }
-        .nav-links {
-            display: flex;
-            justify-content: flex-end;
-            margin: 20px;
-        }
-        .nav-links a {
-            color: #007BFF;
-            padding: 10px 15px;
-            margin: 0 5px;
-            text-decoration: none;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 18px; /* Increased font size */
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .nav-links a:hover {
-            background-color: #007BFF;
-            color: #fff;
-        }
-        h1 {
-            text-align: center;
-            margin: 20px 0; /* Optional: adds some margin for spacing */
-        }
-</style>

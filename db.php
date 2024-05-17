@@ -350,4 +350,19 @@ function updateProfile($type, $name, $email, $password, $city, $district, $addre
      }
 }
 
+function getProduct($p_id){
+     global $db;
+     $stmt = $db->prepare("SELECT * FROM product_table WHERE p_id=?");
+     $stmt->execute([$p_id]);
+     return $stmt->fetch();
+}
+
+function shipProducts($products){
+     global $db;
+     foreach($products as $product) {
+          $stmt = $db->prepare("UPDATE product_table SET p_stock = p_stock - ? WHERE p_id = ?");
+          $stmt->execute([$product['amount'], $product['p_id']]);
+     }
+}
+
 ?>
