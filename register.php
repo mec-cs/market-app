@@ -48,8 +48,14 @@
             $_SESSION["auth_code"] = mt_rand(100000, 999999);
             
             // sending authentication mail to the user
-            Mail::send("enes.cakir@ug.bilkent.edu.tr", "Welcome from Market App Team!", $_SESSION["auth_code"]) ;
-
+            $send_flag = Mail::send($email, "Welcome from Market App Team!", $_SESSION["auth_code"]) ;
+            
+            if (!$send_flag) {
+               $errors["mail_error"] = '<p>Authentication mail has been sent to your mail account. Please check the code and provide it to login the system.</p>';
+               header("Location: register.php?mail_error");
+               exit;
+            }
+            
             // var_dump($_POST);
             // var_dump($register);
 
