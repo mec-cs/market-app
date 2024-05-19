@@ -18,8 +18,9 @@ class Mail {
             $mail->SMTPAuth   = true;                                   
             $mail->Username   = EMAIL;                                       
             $mail->Password   = PASSWORD ;                     
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPSecure = 'tls';
             $mail->Port       = 587; 
+            $mail->SMTPDebug  = 1;
         
             $mail->setFrom(EMAIL, FULLNAME);
             

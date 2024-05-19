@@ -13,8 +13,13 @@
      
       // if user auth, direct to the main.php
       if(isUserAuthenticated()) {
-         header("Location: main.php");
-         exit; 
+         // echo("BABA AUTHENTICATED!");
+         // header("Location: main.php");
+         // exit; 
+      }
+
+      if(!empty($_GET) && isset($_GET["mail_error"])) {
+         $errors["mail_error"] = "Authentication mail cannot be sent to your<br> mail account, please try again later..";
       }
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -51,11 +56,13 @@
             $send_flag = Mail::send($email, "Welcome from Market App Team!", $_SESSION["auth_code"]) ;
             
             if (!$send_flag) {
-               $errors["mail_error"] = '<p>Authentication mail has been sent to your mail account. Please check the code and provide it to login the system.</p>';
+               // var_dump($send_flag);
+               $_SESSION["user"] = null;
                header("Location: register.php?mail_error");
                exit;
             }
             
+            // var_dump($send_flag);
             // var_dump($_POST);
             // var_dump($register);
 

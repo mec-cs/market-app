@@ -17,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['code'])) {
         $register = registerUser($user["usertype"], $user["name"], $user["email"], $user["password"], $user["city"], $user["district"], $user["address"]);
 
         if ($register) {
+            // var_dump($register);
             header("Location: main.php");
             exit;
         } else {
