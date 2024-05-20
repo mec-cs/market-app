@@ -1,4 +1,4 @@
-# Project Name
+# Market-App
 
 ## What is Project
 Market-App is a dynamic web application. It is a group project through CTIS256 course.
