@@ -1,5 +1,5 @@
 <?php 
-    session_start() ;
+    session_start();
 
     // Set CSP headers
     // header("Content-Security-Policy: default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com;");
@@ -31,37 +31,48 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         extract($_POST);
 
-        // validated parameters against attacks
-        $v_name = validateInput($name);
-        $v_email = validateInput($email);
-        $v_password = validateInput($password);
-        $v_city = validateInput($city);
-        $v_district = validateInput($district);
-        $v_address = validateInput($address);
+        if (empty($name) || empty($email) || empty($password) || empty($city) || empty($district) || empty($address)) {
+            $error["empty"] = "Empty input parameters!";
+        } else if(strlen($password) < 8){
+            $error["short_pwd"] = "Password -> at least 8 characters!";
+        } else if(checkSpecialChar($password) != true){
+            $error["special_char"] = "Password -> at least 1 special char!";
+        } else if (!isValidName($name) || !isValidEmail($email)) {
+            $error["invalid"] = "Valid inputs to name or email!";
+        } else {
+            
+            // validated parameters against attacks
+            $v_name = validateInput($name);
+            $v_email = validateInput($email);
+            $v_password = validateInput($password);
+            $v_city = validateInput($city);
+            $v_district = validateInput($district);
+            $v_address = validateInput($address);
 
-        // Troubleshoot the values if errors occur
-            // var_dump($user_addresses);
-            // var_dump($v_name, $v_email, $v_password, $v_city, $v_district, $v_address, $user["email"]);
-        //
-         
-        // update the profile of user whether s/he is a market or customer
-        $updated = updateProfile($role, $v_name, $v_email, $v_password, $v_city, $v_district, $v_address, $user["email"], $user["usrtoken"]);
-        
-        if ($updated) {
-            // also update session
-            $_SESSION["user"] = ["name" => $v_name, "email" => $v_email, "password" => $v_password, "usrtoken" => isset($user["usrtoken"]) ? $user["usrtoken"] : ""];
+            // Troubleshoot the values if errors occur
+                // var_dump($user_addresses);
+                // var_dump($v_name, $v_email, $v_password, $v_city, $v_district, $v_address, $user["email"]);
+            // // //                     
+            // update the profile of user whether s/he is a market or customer
+            $updated = updateProfile($role, $v_name, $v_email, $v_password, $v_city, $v_district, $v_address, $user["email"], $user["usrtoken"]);
+            
+            if ($updated) {
+                // also update session
+                $_SESSION["user"] = ["name" => $v_name, "email" => $v_email, "password" => $v_password, "usrtoken" => isset($user["usrtoken"]) ? $user["usrtoken"] : ""];
+                $user = $_SESSION["user"];
+                $user_addresses = getAddress($user['email']);    
+                $role = getUserRole($user["email"])["role"];
+                $user["name"] = getName($user["email"]);
+            } else {
+                $error["update"] = "DB error, please try again later!";
+            }
+    
             $user = $_SESSION["user"];
             $user_addresses = getAddress($user['email']);    
             $role = getUserRole($user["email"])["role"];
             $user["name"] = getName($user["email"]);
-        } else {
-            $error["update"] = "Your changes cannot be saved to the system, please try again later!";
-        }
 
-        $user = $_SESSION["user"];
-        $user_addresses = getAddress($user['email']);    
-        $role = getUserRole($user["email"])["role"];
-        $user["name"] = getName($user["email"]);
+        }
     }
 ?>
 
@@ -113,12 +124,16 @@
                                 <input type="text" name="address" id="address" class="form-control" value="<?php echo isset($user_addresses['addr']) ? $user_addresses['addr'] : ''; ?>" required>
                             </div>
                             <a href="./main.php" class="btn btn-primary">Back</a>
-                            <input type="submit" class="btn btn-primary" value="Submit"/>
+                            <input id="submitBtn" type="submit" class="btn btn-primary" value="Submit"/>
                         </form>
                     </div>
                     <div class="card-footer text-center">
-                        <p class="text-danger">
-                            <?= isset($error["update"]) ? $error["update"] : "" ?>
+                        <p class="text-danger" id="profile_error">
+                            <?php 
+                                if (isset($error)) {
+                                    echo "<p style='color:red; font-size:12px'>" . implode('<br>', $error) . "</p>";
+                                }
+                            ?>
                         </p>
                     </div>
                 </div>
@@ -127,7 +142,6 @@
     </div>
 </div>
 
-<script src="js/validate.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
