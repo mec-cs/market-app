@@ -380,9 +380,12 @@
                         <input type='hidden' name='p_id' value='{$p['p_id']}'>
                         <span id='error-message' style='color: red; display: none;'>Not enough stock </span>
                         &nbsp;
-                        <button class='btnClass' type='submit'>$text</button>
-                    </form>
-                    ";
+                        <button class='btnClass' type='submit' ";
+                        if($p["p_stock"] == 0){
+                            echo 'style="pointer-events: none; opacity: 0.4;"';
+                        }
+                    echo ">{$text}</button></form>";
+
                    if($text == 'Update chart'){
                        echo "
                         <form method='post'>
