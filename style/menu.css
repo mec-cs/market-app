@@ -1,0 +1,148 @@
+body {
+    background-image: url('../assets/profile/market_warehouse.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: top;
+    width: 100%;
+    height: 100%;
+}
+
+span {
+    color: red;
+}
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    font-size: 18px;
+    text-align: left;
+}
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+th {
+    background-color:rgb(194, 163, 122);
+    font-weight: bold;
+}
+tr:nth-child(even) {
+    background-color: bisque;
+}
+tr:nth-child(odd) {
+    background-color: bisque;
+}
+img {
+    display: block;
+    margin: 0 auto;
+}
+a img {
+    vertical-align: middle;
+}
+form {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+input[type="text"] {
+    padding: 6px 12px;
+    border: 1px solid rgb(60, 63, 68);
+    color: rgb(6, 29, 27);
+    height: 46px;
+    appearance: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+}
+input[type="text"]::placeholder {
+    color: #aaa;
+}
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: rgb(100, 153, 255);
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+.pagination a {
+    color: black;
+    background-color: bisque;
+    padding: 10px 15px;
+    margin: 0 5px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 18px;
+}
+.pagination a:hover {
+    background-color: #007BFF;
+    color: #fff;
+}
+.pagination a.active {
+    background-color: #007BFF;
+    color: #fff;
+    border-color: #007BFF;
+}
+.nav-links {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
+}
+.nav-links a {
+    color: black;
+    background-color: bisque;
+    padding: 10px 15px;
+    margin: 0 5px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 18px; /* Increased font size */
+    transition: background-color 0.3s, color 0.3s;
+}
+.nav-links a:hover {
+    background-color: #007BFF;
+    color: #fff;
+}
+h1 {
+    text-align: center;
+    margin: 20px 0; /* Optional: adds some margin for spacing */
+}
+
+.btnClass {
+  background-color: #fff;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  box-sizing: border-box;
+  color: #0f1111;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Amazon Ember",sans-serif;
+  font-size: 13px;
+  line-height: 29px;
+  padding: 0 10px 0 11px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  width: 100px;
+}
+
+.btnClass:hover {
+  background-color: #f7fafa;
+}
+
+.btnClass:focus {
+  border-color: #008296;
+  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  outline: 0;
+}
+
