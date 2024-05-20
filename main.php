@@ -39,6 +39,12 @@
     if(isset($_GET["add"])){
         $page = $_GET["add"];
     }
+    if(isset($_POST["page"])){
+        $page = $_POST["page"];
+    }
+    if(isset($_GET["edit"])){
+        $page = $_GET["page"];
+    }
     $start = ($page - 1) * PAGESIZE;
     $end = $start + PAGESIZE;
 
@@ -161,7 +167,9 @@
         } 
         elseif ($role['role'] == "M"){ //edit
             extract($_POST);
-
+            $page = $_POST["page"] ?? 1;
+            $start = ($page - 1) * PAGESIZE;
+            $end = $start + PAGESIZE;
             // protect against XSS attacks
             $prod_name = filter_var(htmlspecialchars(stripslashes(trim($p_name))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $prod_stock = filter_var(htmlspecialchars(stripslashes(trim($p_stock))), FILTER_SANITIZE_NUMBER_INT);
@@ -364,13 +372,14 @@
                 </a><br>";
                 if(isset($_GET["edit"]) && $p["p_id"] == $_GET["edit"]) {
                     echo "
-                    <button style='border:0px solid black; background-color: transparent' name='p_id' value='$p[p_id]'action='?'><img src='./assets/system/save.png' alt='Save' width='30'></button>
-                    <a href='?edit=$p[p_id]'>
+                    <input type='hidden' name='page' value='{$page}'>
+                    <button style='border:0px solid black; background-color: transparent' name='p_id' value='$p[p_id]'action='?page=$page'><img src='./assets/system/save.png' alt='Save' width='30'></button>
+                    <a href='?edit=$p[p_id]&page=$page'>
 
                     </a>";
                 } else {
                     echo "
-                    <a href='?edit=$p[p_id]'>
+                    <a href='?edit=$p[p_id]&page=$page'>
                         <img src='./assets/system/edit.png' alt='Update' width='30'>
                     </a>";
                 }
@@ -440,7 +449,7 @@
             <td><input type="text" name="p_expire" value="" placeholder="Expire Date"></td>
             <td><input type="text" name="p_price" value="" placeholder="Price"></td>
             <td><input type="text" name="p_altprice" value="" placeholder="Discounted Price"></td>
-            <td><button style="border:0px solid black; background-color: transparent" name="add" action="?"><img src="./assets/system/save.png" alt="Save" width="30"></button></td>
+            <td><button style="border:0px solid black; background-color: transparent" name="add" action="?page=<?$page?>"><img src="./assets/system/save.png" alt="Save" width="30"></button></td>
             </tr>
             </form>
     <?php elseif($role['role'] === "M"):  ?>
