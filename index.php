@@ -45,7 +45,7 @@
 }
  
  // if the user has already logged in, don't show login form
-   if ($_SERVER["REQUEST_METHOD"] == "GET" && isUserAuthenticated()) {
+   if ($_SERVER["REQUEST_METHOD"] == "GET" && isUserAuthenticated() && checkExists($_SESSION["user"]["email"])) {
       // auto login8o98
       header("Location: main.php") ;
       exit;
