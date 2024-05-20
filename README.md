@@ -2,6 +2,11 @@
 
 ## What is Project
 Market-App is a dynamic web application. It is a group project through CTIS256 course.
+### By ###
+- Batu Uzun
+- Berk Bera Özer
+- Ege İliman
+- Mehmet Enes Çakır
 
 ## Objective
 The main objective of [Market-App] is to create a market-customer system that facilitate to sell products that are nearing their expiration date at a lower price than their normal price..
