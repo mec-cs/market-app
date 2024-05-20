@@ -217,11 +217,12 @@ return filter_var($email, FILTER_VALIDATE_EMAIL);
 function updateProduct($p_name, $p_stock, $p_expire, $p_price, $p_altprice, $p_id) {
      global $db;
 
-     $p_id = $post["p_id"];
-     foreach($post as $key => $value) {
-          $stmt = $db->prepare("UPDATE product_table SET $key=? WHERE p_id=$p_id");
-          $stmt->execute([$value]);
-          $flag = true;
+     try {
+          $stmt = $db->prepare("UPDATE product_table SET p_name = ?, p_stock = ?, p_expire = ?, p_price = ?, p_altprice = ? where p_id = $p_id");
+          $stmt->execute([$p_name, $p_stock, $p_expire, $p_price, $p_altprice]);
+          return true;
+     } catch(PDOException $e) {
+          return false;
      }
 }
 

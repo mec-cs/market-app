@@ -160,7 +160,16 @@
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
         } 
         elseif ($role['role'] == "M"){ //edit
-            updateProduct($_POST);
+            extract($_POST);
+
+            // protect against XSS attacks
+            $prod_name = filter_var(htmlspecialchars(stripslashes(trim($p_name))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $prod_stock = filter_var(htmlspecialchars(stripslashes(trim($p_stock))), FILTER_SANITIZE_NUMBER_INT);
+            $prod_expire = filter_var(htmlspecialchars(stripslashes(trim($p_expire))), FILTER_SANITIZE_URL);
+            $prod_price = filter_var(htmlspecialchars(stripslashes(trim($p_price))),  FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+            $prod_altprice = filter_var(htmlspecialchars(stripslashes(trim($p_altprice))), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+            updateProduct($prod_name, $prod_stock, $prod_expire, $prod_price, $prod_altprice, $p_id);
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
         }
     } else {
