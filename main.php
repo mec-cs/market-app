@@ -40,7 +40,6 @@
         exit;
     }
 
-
     if($role['role'] == "M"){
         $size = getNumberOfProducts(getMarket($address['id'])["c_id"]);
         setPagings($size);
