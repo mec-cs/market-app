@@ -3,9 +3,12 @@ session_start();
 
 require "db.php";
 
+if(!isset($_SESSION["user"])){
+    header("Location: ./error.php");
+}
+
 // Check if authentication code is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['code'])) {
-
     $enteredCode = $_POST['code'];
     $storedCode = isset($_SESSION['auth_code']) ? $_SESSION['auth_code'] : null;
 
@@ -16,17 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['code'])) {
         $register = registerUser($user["usertype"], $user["name"], $user["email"], $user["password"], $user["city"], $user["district"], $user["address"]);
 
         if ($register) {
-            // var_dump($register);
             header("Location: ./main.php");
             exit;
         } else {
-            header("Location: ./index.php?error");
+            header("Location: error.php");
             exit;
         }
-    } else {
-        // Authentication failed, show error message
-        header("Location: index.php?error");
-        exit;
     }
 }
 ?>
@@ -66,6 +64,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['code'])) {
             <div style="margin-bottom: 10px;">
                 <button class="btnSpecial" role="submit">Authenticate</button>
             </div>
+            <?php
+                if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['code']){
+                    echo "<div><p style='color: red'>Wrong Code!</p></div>";
+                }
+            ?>
          </div>
       </form>
    </div>

@@ -9,6 +9,7 @@
 
     require "db.php" ;
       const PAGESIZE = 4 ;
+
     // check if the user authenticated before
     if( !isUserAuthenticated()) {
         header("Location: index.php?error") ;
@@ -24,7 +25,6 @@
         $totalPages = ceil($size/PAGESIZE);
    }
 
-
     $user = $_SESSION["user"];
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
@@ -34,6 +34,12 @@
     }
     $start = ($page - 1) * PAGESIZE;
     $end = $start + PAGESIZE;
+
+    if(!checkExists($_SESSION["user"]["email"])){
+        header("Location: error.php");
+        exit;
+    }
+
 
     if($role['role'] == "M"){
         $size = getNumberOfProducts(getMarket($address['id'])["c_id"]);

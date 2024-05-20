@@ -72,6 +72,7 @@ function registerUser($type, $name, $mail, $password, $city, $district, $addr) {
 
           return true;
      } catch (PDOException $e) {
+          echo $e;
           return false;
      }
 }
