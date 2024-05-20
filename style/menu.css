@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,400i,600,600i');
+
 body {
     background-image: url('../assets/profile/market_warehouse.jpg');
     background-repeat: no-repeat;
@@ -6,6 +8,12 @@ body {
     background-position: top;
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
+}
+
+h1 {
+    font-family: 'Josefin Sans', sans-serif;
+    color:cadetblue;
 }
 
 span {
