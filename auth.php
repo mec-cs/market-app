@@ -8,11 +8,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['code'])) {
 
     $enteredCode = $_POST['code'];
     $storedCode = isset($_SESSION['auth_code']) ? $_SESSION['auth_code'] : null;
-    var_dump($storedCode);
-    var_dump($enteredCode);
+
     // Check if entered code matches the stored code
     if ($storedCode && intVal($enteredCode) === $storedCode) {
-        echo "asdasda";
         // Authentication successful, redirect to main.php
         $user = $_SESSION["user"];
         $register = registerUser($user["usertype"], $user["name"], $user["email"], $user["password"], $user["city"], $user["district"], $user["address"]);
