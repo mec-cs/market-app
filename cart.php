@@ -9,9 +9,17 @@
     require "db.php" ;
 
     if( !isUserAuthenticated()) {
-        header("Location: index.php?error") ;
-        exit ; 
+        header("Location: index.php?error");
+        exit; 
     }
+
+    if (isset($_SESSION['auth_code'])) {
+        if (!isset($_SESSION["verify"])) {
+            header("Location: auth.php?verify");
+            exit;
+        }
+    }
+
     function refreshProducts(){
         global $products;
         if(isset($_SESSION['p_ids'])) {

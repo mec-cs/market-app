@@ -16,6 +16,13 @@
         exit ; 
     }
 
+    if (isset($_SESSION['auth_code'])) {
+        if (!isset($_SESSION["verify"])) {
+            header("Location: auth.php?verify");
+            exit;
+        }
+    }
+
     function setPagings($size){
         global $page;
         global $totalPages;

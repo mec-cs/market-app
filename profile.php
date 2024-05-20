@@ -15,6 +15,13 @@
         exit ; 
     }
 
+    if (isset($_SESSION['auth_code'])) {
+        if (!isset($_SESSION["verify"])) {
+            header("Location: auth.php?verify");
+            exit;
+        }
+    }
+
     // Prevent XSS attacks
     function validateInput($data) {
         $data = trim($data);

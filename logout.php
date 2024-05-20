@@ -8,6 +8,13 @@
         exit;
     }
 
+    if (isset($_SESSION['auth_code'])) {
+        if (!isset($_SESSION["verify"])) {
+            header("Location: auth.php?verify");
+            exit;
+        }
+    }
+
     // delete remembering cache 
     setTokenToUser(null, $_SESSION["user"]["email"]);
     setcookie("remember_token", "", 1);

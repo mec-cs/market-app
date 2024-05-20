@@ -53,7 +53,7 @@
             $_SESSION["auth_code"] = mt_rand(100000, 999999);
             
             // sending authentication mail to the user
-            $send_flag = Mail::send($email, "Welcome from Market App Team!", $_SESSION["auth_code"]) ;
+            $send_flag = Mail::send($email, "Welcome from Market App Team!", "Welcome to Market App!\n We love seeing you as a user of our system, here is the authentication code: " . $_SESSION["auth_code"] . "\nPlease provide the code to the authentication page then enter the system.\nGood luck in your journey!") ;
             
             if (!$send_flag) {
                // var_dump($send_flag);

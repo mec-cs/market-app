@@ -12,7 +12,7 @@
     <div class="bg bg2"></div>
     <div class="bg bg3"></div>
     <div class="content">
-        <h1>Oops! It seems you are lost..</h1>
+        <h1>Oops! It seems you are lost.. or have a problem related with system..</h1>
         <h2>Let's escape from here! 
             <a href="./index.php"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
         </h2>

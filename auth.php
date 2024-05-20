@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['code'])) {
         $register = registerUser($user["usertype"], $user["name"], $user["email"], $user["password"], $user["city"], $user["district"], $user["address"]);
 
         if ($register) {
+            $_SESSION["verify"] = true;
             header("Location: ./main.php");
             exit;
         } else {
@@ -27,6 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['code'])) {
         }
     }
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["verify"])) {
+    $error = "You tried to directly connect to the system without authentication<br>Please provide the authentication code <b>first</b>";
+}
+
 ?>
 
 <!DOCTYPE html>
