@@ -36,7 +36,7 @@
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
     $page = $_GET["page"] ?? 1;
-    var_dump($page);
+
     if(isset($_GET["add"])){
         $page = $_GET["add"];
     }
@@ -152,7 +152,7 @@
                 $size = getNumberOfProducts($market["c_id"]);
                 setPagings($size);
                 $page = $totalPages;
-                var_dump($page);
+
                 $start = ($page - 1) * PAGESIZE;    
                 $end = $start + PAGESIZE;
                 $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
@@ -464,7 +464,7 @@
     <div class="pagination">
         <?php
             for ($i = 1; $i <= $totalPages; $i++) {
-                $active = isset($_GET['page']) && $_GET['page'] == $i ? 'active' : '';
+                $active = isset($_GET['page']) && intval($_GET['page']) == $i ? 'active' : '';
                 echo "<a href='?page=$i' class='$active'>$i</a>";
             }
         ?>
