@@ -14,7 +14,7 @@ class Mail {
         try {
             //SMTP Server settings
             $mail->isSMTP();                                            
-            $mail->Host       = 'smtp.gmail.com';                   
+            $mail->Host       = 'asmtp.bilkent.edu.tr';                   
             $mail->SMTPAuth   = true;                                   
             $mail->Username   = EMAIL;                                       
             $mail->Password   = PASSWORD ;                     
@@ -37,6 +37,7 @@ class Mail {
             $mail->send();
             return true;
         } catch (Exception $e) {
+            var_dump($e);
             return false;
         }
    }

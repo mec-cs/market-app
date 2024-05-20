@@ -49,7 +49,7 @@ function checkSpecialChar($passwd){
 
 function registerUser($type, $name, $mail, $password, $city, $district, $addr) {
      global $db;
-     $passwd = password_hash($password, $PASSWORD_DEFAULT);
+     $passwd = password_hash($password, PASSWORD_DEFAULT);
      try {
           $stmt = $db->prepare("insert into auth_table(email, password, usrtoken) values (?, ?, NULL)");
           $stmt->execute([$mail, $passwd]);
@@ -57,12 +57,8 @@ function registerUser($type, $name, $mail, $password, $city, $district, $addr) {
           $stmt->execute([$mail, $name]);
           $stmt = $db->prepare("insert into address_table(email, city, district, addr) values (?, ?, ?, ?)");
           $stmt->execute([$mail, $city, $district, $addr]);
-
-
-
           $stmt = $db->prepare("insert into role_table(email, role) values (?, ?)");
           $stmt->execute([$mail, $type]);
-
 
           if ($type == "M") {
                $stmt = $db->prepare("select id from address_table where email = ?");
