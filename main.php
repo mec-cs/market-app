@@ -35,10 +35,14 @@
     $user = $_SESSION["user"];
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
-    $page = $_GET["page"] ?? 1;
-
+    //$page = $_GET["page"] ?? 1;
+    if(isset($_GET["page"])) {
+        $page = intval($_GET["page"]);
+    } else {
+        $page = 1;
+    }
     if(isset($_GET["add"])){
-        $page = $_GET["add"];
+        $page = intval($_GET["add"]);
     }
     if(isset($_POST["page"])){
         $page = $_POST["page"];
@@ -464,7 +468,7 @@
     <div class="pagination">
         <?php
             for ($i = 1; $i <= $totalPages; $i++) {
-                $active = isset($_GET['page']) && intval($_GET['page']) == $i ? 'active' : '';
+                $active = (isset($_GET['page']) && intval($_GET['page']) == $i) | isset($page) && intval($page) == $i ? 'active' : "";
                 echo "<a href='?page=$i' class='$active'>$i</a>";
             }
         ?>
