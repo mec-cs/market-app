@@ -214,16 +214,20 @@ function isValidEmail($email) {
 return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
-function updateProduct($p_name, $p_stock, $p_expire, $p_price, $p_altprice, $p_id) {
+function updateProduct($post){
      global $db;
+     $flag=false;
 
-     try {
-          $stmt = $db->prepare("UPDATE product_table SET p_name = ?, p_stock = ?, p_expire = ?, p_price = ?, p_altprice = ? where p_id = $p_id");
-          $stmt->execute([$p_name, $p_stock, $p_expire, $p_price, $p_altprice]);
-          return true;
-     } catch(PDOException $e) {
-          return false;
+     $p_id = $post["p_id"];
+     foreach($post as $key => $value) {
+          if($key != "page") {
+               $stmt = $db->prepare("UPDATE product_table SET $key=? WHERE p_id=$p_id");
+               $stmt->execute([$value]);
+               $flag = true;
+          }
      }
+     
+     return $flag;
 }
 
 function deleteProduct($c_id, $p_id){
@@ -234,7 +238,7 @@ function deleteProduct($c_id, $p_id){
      $imageName = $stmt->fetch()['p_image'];
 
      if($imageName != "default.png") {
-          if(file_exists($_SERVER['DOCUMENT_ROOT']."/market-app")) {
+          if(file_exists($_SERVER['DOCUMENT_ROOT']."market-app")) {
                unlink($_SERVER['DOCUMENT_ROOT']."/market-app/assets/product/$imageName");
           } else {
                unlink($_SERVER['DOCUMENT_ROOT']."/assets/product/$imageName");
