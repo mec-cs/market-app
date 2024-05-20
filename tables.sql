@@ -278,9 +278,18 @@ CREATE TABLE `product_table` (
 -- Dumping data for table `product_table`
 --
 
-
 /*!40000 ALTER TABLE `product_table` DISABLE KEYS */;
-INSERT INTO `product_table` VALUES (1,'Falım Naneli',50,'2024-08-15',1,'falım_nane.jpg',1.50, 1.0, FALSE),(2,'Ülker Çikolatalı Gofret',100,'2024-06-30',2,'ülker_gofret.jpg',5.99, 4.99, FALSE),(3,'Eti Sütlü Çikolata',50,'2024-08-15',3,'eti_sütlü_çikolata.jpg',8.50, 5.99, FALSE),(4,'Eti Cin',75,'2024-07-20',3,'eti_cin.jpg',3.75, 2.99, FALSE);
+INSERT INTO product_table (p_id, p_name, p_stock, p_expire, c_id, p_image, p_price, p_altprice, p_discounted) VALUES
+(3, 'Eti Sütlü Çikolata', 50, '2024-08-15', 3, 'eti_sütlü_çikolata.jpg', 8.50, 5.99, 0),
+(4, 'Eti Cin', 75, '2024-07-20', 3, 'eti_cin.jpg', 3.75, 2.99, 0),
+(5, 'Ülker Hanımeller', 25, '2024-05-29', 2, 'hanimeller.jpg', 18.00, 15.50, 0),
+(6, 'Ülker Napoliten', 5, '2025-03-11', 2, 'napoliten.jpg', 20.00, 10.00, 0),
+(7, 'Ülker Dankek', 50, '2024-08-12', 2, 'dankek.jpg', 45.00, 33.75, 0),
+(11, 'Jelibon Ayıcık', 40, '2025-07-27', 1, 'jelibon_ayicik.jpg', 28.00, 20.00, 0),
+(12, 'Tofita Çilekli', 15, '2025-03-15', 1, 'tofita_cilekli.jpg', 16.00, 13.80, 0),
+(14, 'Falım Naneli', 50, '2024-08-15', 1, 'falım-nane.jpg', 1.50, 1.00, 0),
+(15, 'Ülker Çikolatalı Gofret', 70, '2024-06-30', 2, 'ülker_gofret.jpg', 5.99, 4.00, 0),
+(16, 'Eti Gong', 16, '2024-09-18', 3, 'gong.jpg', 18.00, 15.50, 0);
 /*!40000 ALTER TABLE `product_table` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
