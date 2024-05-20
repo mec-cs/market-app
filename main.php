@@ -31,18 +31,13 @@
 
         $totalPages = ceil($size/PAGESIZE);
    }
+
     $user = $_SESSION["user"];
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
     $page = $_GET["page"] ?? 1;
     if(isset($_GET["add"])){
         $page = $_GET["add"];
-    }
-    if(isset($_POST["page"])){
-        $page = $_POST["page"];
-    }
-    if(isset($_GET["edit"])){
-        $page = $_GET["page"];
     }
     $start = ($page - 1) * PAGESIZE;
     $end = $start + PAGESIZE;
@@ -134,7 +129,17 @@
                     extract($_POST);
                     $file["name"] = time().rand(0, 1000000).$file["name"];
                     move_uploaded_file($file["tmp_name"], "./assets/product/" . $file["name"]);
-                    addProduct($p_name, $p_stock, $p_expire, $market["c_id"], $file["name"], $p_price, $p_altprice);
+                    
+                    // protect against XSS attacks
+                    $prod_name = htmlspecialchars(stripslashes(trim($p_name)));
+                    $prod_stock = filter_var(htmlspecialchars(stripslashes(trim($p_stock))), FILTER_SANITIZE_NUMBER_INT);
+                    $prod_expire = filter_var(htmlspecialchars(stripslashes(trim($p_expire))), FILTER_SANITIZE_URL);
+                    $prod_market_id = filter_var(htmlspecialchars(stripslashes(trim($market["c_id"]))), FILTER_SANITIZE_NUMBER_INT);
+                    $prod_file_name = filter_var(htmlspecialchars(stripslashes(trim($file["name"]))), FILTER_SANITIZE_URL);
+                    $prod_price = filter_var(htmlspecialchars(stripslashes(trim($p_price))), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                    $prod_altprice = filter_var(htmlspecialchars(stripslashes(trim($p_altprice))), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                    
+                    addProduct($prod_name, $prod_stock, $prod_expire, $prod_market_id, $prod_file_name, $prod_price, $prod_altprice);
                 }
                 $a = $totalPages;
                 $size = getNumberOfProducts($market["c_id"]);
@@ -155,10 +160,16 @@
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
         } 
         elseif ($role['role'] == "M"){ //edit
-            updateProduct($_POST);
-            $page = $_POST["page"] ?? 1;
-            $start = ($page - 1) * PAGESIZE;
-            $end = $start + PAGESIZE;
+            extract($_POST);
+
+            // protect against XSS attacks
+            $prod_name = filter_var(htmlspecialchars(stripslashes(trim($p_name))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $prod_stock = filter_var(htmlspecialchars(stripslashes(trim($p_stock))), FILTER_SANITIZE_NUMBER_INT);
+            $prod_expire = filter_var(htmlspecialchars(stripslashes(trim($p_expire))), FILTER_SANITIZE_URL);
+            $prod_price = filter_var(htmlspecialchars(stripslashes(trim($p_price))),  FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+            $prod_altprice = filter_var(htmlspecialchars(stripslashes(trim($p_altprice))), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+            updateProduct($prod_name, $prod_stock, $prod_expire, $prod_price, $prod_altprice, $p_id);
             $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
         }
     } else {
@@ -201,16 +212,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <link rel="stylesheet" href="./style/main.css">
+    <link rel="stylesheet" href="./style/menu.css">
     <title>Market App</title>
 </head>
 <body>
-    <div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-    </div>
     <div class="nav-links">
         <a href="./cart.php" <?= empty($_SESSION["p_ids"]) ? 'style="pointer-events: none; opacity: 0.4;"' : "";?>>View Chart</a>
         <a href="./profile.php">Profile</a>
@@ -359,14 +364,13 @@
                 </a><br>";
                 if(isset($_GET["edit"]) && $p["p_id"] == $_GET["edit"]) {
                     echo "
-                    <input type='hidden' name='page' value='{$page}'>
-                    <button style='border:0px solid black; background-color: transparent' name='p_id' value='$p[p_id]'action='?page=$page'><img src='./assets/system/save.png' alt='Save' width='30'></button>
-                    <a href='?edit=$p[p_id]&page=$page'>
+                    <button style='border:0px solid black; background-color: transparent' name='p_id' value='$p[p_id]'action='?'><img src='./assets/system/save.png' alt='Save' width='30'></button>
+                    <a href='?edit=$p[p_id]'>
 
                     </a>";
                 } else {
                     echo "
-                    <a href='?edit=$p[p_id]&page=$page'>
+                    <a href='?edit=$p[p_id]'>
                         <img src='./assets/system/edit.png' alt='Update' width='30'>
                     </a>";
                 }
@@ -436,7 +440,7 @@
             <td><input type="text" name="p_expire" value="" placeholder="Expire Date"></td>
             <td><input type="text" name="p_price" value="" placeholder="Price"></td>
             <td><input type="text" name="p_altprice" value="" placeholder="Discounted Price"></td>
-            <td><button style="border:0px solid black; background-color: transparent" name="add" action="?page=<?$page?>"><img src="./assets/system/save.png" alt="Save" width="30"></button></td>
+            <td><button style="border:0px solid black; background-color: transparent" name="add" action="?"><img src="./assets/system/save.png" alt="Save" width="30"></button></td>
             </tr>
             </form>
     <?php elseif($role['role'] === "M"):  ?>
