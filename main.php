@@ -36,6 +36,7 @@
     $address = getAddress($user['email']);
     $role = getUserRole($user['email']);
     $page = $_GET["page"] ?? 1;
+    var_dump($page);
     if(isset($_GET["add"])){
         $page = $_GET["add"];
     }
@@ -151,7 +152,8 @@
                 $size = getNumberOfProducts($market["c_id"]);
                 setPagings($size);
                 $page = $totalPages;
-                $start = ($page - 1) * PAGESIZE;
+                var_dump($page);
+                $start = ($page - 1) * PAGESIZE;    
                 $end = $start + PAGESIZE;
                 $products = getMarketProductsByPageNumber($start, $end, $market['c_id']);
              } 
