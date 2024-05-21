@@ -70,15 +70,17 @@
                 $user_addresses = getAddress($user['email']);    
                 $role = getUserRole($user["email"])["role"];
                 $user["name"] = getName($user["email"]);
+
+                $error["successful"] = "Successfuly updated.";
             } else {
                 $error["update"] = "DB error, please try again later!";
+
             }
     
             $user = $_SESSION["user"];
             $user_addresses = getAddress($user['email']);    
             $role = getUserRole($user["email"])["role"];
             $user["name"] = getName($user["email"]);
-
         }
     }
 ?>
@@ -138,7 +140,11 @@
                         <p class="text-danger" id="profile_error">
                             <?php 
                                 if (isset($error)) {
-                                    echo "<p style='color:red; font-size:12px'>" . implode('<br>', $error) . "</p>";
+                                    if(isset($error["successful"])){
+                                        echo "<p style='color:green; font-size:12px'>" . implode('<br>', $error) . "</p>";
+                                    } else {
+                                        echo "<p style='color:red; font-size:12px'>" . implode('<br>', $error) . "</p>";
+                                    }
                                 }
                             ?>
                         </p>
