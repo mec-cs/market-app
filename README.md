@@ -44,5 +44,16 @@ The main objective of [Market-App] is to create a market-customer system that fa
 3. Config/config.php: Inside config.php file, add const EMAIL and PASSWORD variable to your mail account.
   - Also set proper SMTP server for your mail account
 
+## Snapshots
+<img src="https://github.com/mec-cs/market-app/assets/102901204/7cc272ed-f4db-4fa8-86bc-5f4a3cdd21dd" width="500" height="400"/>
+<img src="https://github.com/mec-cs/market-app/assets/102901204/9d082e33-dfd0-466b-ad79-334c9eff4ba7" width="500" height="400"/>
+<img src="https://github.com/mec-cs/market-app/assets/102901204/5acc400b-9750-467e-b847-49dbd4d40b7d" width="500" height="400"/>
+<img src="https://github.com/mec-cs/market-app/assets/102901204/493c4732-0fda-4df0-982d-bca765715e2c" width="500" height="400"/>
+<img src="https://github.com/mec-cs/market-app/assets/102901204/52812c4d-7124-4d0e-8492-92f9e6f02f1f" width="500" height="400"/>
+<img src="https://github.com/mec-cs/market-app/assets/102901204/a1cac011-46e4-4a02-8196-c26ffe283b7e" width="500" height="400"/>
+<img src="https://github.com/mec-cs/market-app/assets/102901204/cb76e4b5-3312-41e2-a5b8-7ad91794c1f7" width="500" height="400"/>
+<img src="https://github.com/mec-cs/market-app/assets/102901204/d2e23115-c715-4fb3-9da0-f91814e73358" width="500" height="400"/>
+
+
 ## Contributing
 Contributions are welcome! Please fork the repository and submit a pull request with your changes.
